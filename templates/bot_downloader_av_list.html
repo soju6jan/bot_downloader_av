@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+{% block content %}
+ 
+<div>
+  <form id="form_search" class="form-inline" style="text-align:left">
+    <div class="container-fluid">
+      <div class="row show-grid">
+        <span class="col-md-6">
+          <select id="order" name="order" class="form-control form-control-sm">
+            <option value="desc">최근순</option>
+            <option value="asc">오래된순</option>
+          </select>
+          <select id="av_type" name="av_type" class="form-control form-control-sm">
+            <option value="all">전체</option>
+            <option value="censored">Censored</option>
+            <option value="uncensored">Uncensored</option>
+            <option value="western">Western</option>
+            <option value="fc2">FC2</option>
+          </select>
+          <select id="option" name="option" class="form-control form-control-sm">
+            <option value="all">전체</option>
+            <option value="wait">🕛판단 이전</option>
+            <option value="true">✔조건일치 - 요청</option>
+            <option value="false">⛔조건불일치 - 패스</option>
+            <option value="true_only_status">✔조건일치 - 상태만</option>
+            <option value="false_only_status">⛔조건불일치 - 상태만</option>
+            <option value="no">자동 다운로드 사용안함</option>
+          </select>
+        </span>
+        <span class="col-md-6">
+          <input id="search_word" name="search_word" class="form-control form-control-sm w-75" type="text" placeholder="품번 or 파일명" aria-label="Search">
+          <button id="search" class="btn btn-sm btn-outline-success">검색</button>
+          <button id="reset_btn" class="btn btn-sm btn-outline-success">리셋</button>
+          
+        </span>
+      </div>
+    </div>
+  </form>
+  <div id='page1'></div>
+  {{ macros.m_hr_head_top() }}
+  {{ macros.m_row_start('0') }}
+  {{ macros.m_col(2,  macros.m_strong('Poster')) }}
+  {{ macros.m_col(10,  macros.m_strong('Info')) }}
+  {{ macros.m_row_end() }}
+  {{ macros.m_hr_head_bottom() }}
+  <div id="list_div"></div>
+  <div id='page2'></div>
+</div>
+
+<script type="text/javascript">
+var package_name = "{{arg['package_name'] }}";
+var current_data = null;
+var is_torrent_info_installed = ("{{arg['is_torrent_info_installed']}}" == 'True')
+var is_available_normal_download = ("{{arg['is_available_normal_download']}}" == 'True')
+var ddns = "{{arg['ddns']}}";
+var show_log = ("{{arg['show_log']}}" == 'True')
+
+$(document).ready(function(){
+  request_search('1');
+});
+
+$("#search").click(function(e) {
+  e.preventDefault();
+  request_search('1');
+});
+
+$("body").on('click', '#page', function(e){
+  e.preventDefault();
+  request_search($(this).data('page'));
+});
+
+$("#reset_btn").click(function(e) {
+  e.preventDefault();
+  document.getElementById("order").value = 'desc';
+  document.getElementById("option").value = 'all';
+  document.getElementById("search_word").value = '';
+  document.getElementById("av_type").value = 'all';
+  request_search('1')
+});
+
+$("body").on('click', '#json_btn', function(e){
+  e.preventDefault();
+  var id = $(this).data('id');
+  for (i in current_data.list) {
+    if (current_data.list[i].id == id) {
+      m_modal(current_data.list[i])
+    }
+  }
+});
+
+$("body").on('click', '#self_search_btn', function(e){
+  e.preventDefault();
+  var search_word = $(this).data('id');
+  document.getElementById("search_word").value = search_word;
+  request_search('1')
+});
+
+
+$("body").on('click', '#add_download_btn', function(e) {
+  e.preventDefault();
+  id = $(this).data('id');
+  $.ajax({
+    url: '/'+package_name+'/ajax/add_download',
+    type: "POST", 
+    cache: false,
+    data: {id:id},
+    dataType: "json",
+    success: function (data) {
+      if (data) {
+        $.notify('<strong>다운로드 추가하였습니다.</strong>', {
+          type: 'success'
+        });
+        request_search(current_data.paging.current_page, false)
+      } else {
+        $.notify('<strong>다운로드 추가에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+
+$("body").on('click', '#remove_btn', function(e) {
+  e.preventDefault();
+  id = $(this).data('id');
+  $.ajax({
+    url: '/'+package_name+'/ajax/remove',
+    type: "POST", 
+    cache: false,
+    data: {id:id},
+    dataType: "json",
+    success: function (data) {
+      if (data) {
+        $.notify('<strong>삭제되었습니다.</strong>', {
+          type: 'success'
+        });
+        request_search(current_data.paging.current_page, false)
+      } else {
+        $.notify('<strong>삭제 실패</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+
+function request_search(page, move_top=true) {
+  var formData = get_formdata('#form_search')
+  formData += '&page=' + page;
+  $.ajax({
+    url: '/' + package_name + '/ajax/web_list',
+    type: "POST", 
+    cache: false,
+    data: formData,
+    dataType: "json",
+    success: function (data) {
+      current_data = data;
+      if (move_top)
+        window.scrollTo(0,0);
+      make_list(data.list)
+      make_page_html(data.paging)
+    }
+  });
+}
+
+
+function make_list(data) {
+  str = '';
+  for (i in data) {
+    //console.log(data[i])
+    if (data[i].download_status == null) data[i].download_status = '';
+    str += m_row_start();
+    if ( data[i].poster != null && show_log)
+      tmp = '<img src="' + data[i].poster + '" class="img-fluid">'
+    else 
+      tmp = ''
+    str += m_col(2, tmp);
+    right = m_row_start();
+    
+    // 다음정보
+    tmp = ''
+    tmp += '<b>'+data[i].code+'</b><br>' + data[i].title
+    if (data[i].genre != null && data[i].genre != '')
+      tmp += '<br>장르 : ' + data[i].genre.replace(/\|/gi, ' / ')
+    if (data[i].performer != null && data[i].performer != '')
+      tmp += '<br>배우 : ' + data[i].performer.replace(/\|/gi, ' / ')
+    tmp += m_hr()
+
+    manual = ''
+    if (data[i].download_status.endsWith('|manual')) {
+      data[i].download_status = data[i].download_status.replace('|manual', '')
+      manual = ' - 수동요청'
+    }
+    if (data[i].download_status == 'true') {
+      tmp2 = '✔조건일치 - 요청 '
+    } else if (data[i].download_status == 'false') {
+      tmp2 = '⛔조건불일치 - 패스 '
+    } else if (data[i].download_status == '') {
+      tmp2 = '🕛판단 이전 '
+    } else if (data[i].download_status == 'no') {
+      tmp2 = '자동 다운로드 사용안함 '
+    } else if (data[i].download_status == 'true_only_status') {
+      tmp2 = '✔조건일치 - 상태만'
+    } else if (data[i].download_status == 'false_only_status') {
+      tmp2 = '⛔조건불일치 - 상태만'
+    }
+
+    if (show_log && data[i].log != '') {
+      tmp2 += '<pre>' + data[i].log + '</pre>'
+    }
+
+    tmp2 += manual
+    tmp += '<b>상태 : </b>' + tmp2
+    tmp += m_hr()
+    
+    // 마그넷
+    tmp += '파일명 : <b>' + data[i].filename + '</b><br>'
+    if (data[i].dirname != '')
+      tmp += '폴더명 : <b>' + data[i].dirname + '</b><br>'
+    tmp += '크기 : ' + humanFileSize(data[i].total_size) + ' /  파일수 : ' + data[i].file_count + '<br>'
+    tmp += '<a href="'+data[i].magnet + '">' + data[i].magnet + '</a><br>';
+    tmp2 = ''
+    tmp2 += m_button('add_download_btn', '다운로드 추가', [{'key':'id', 'value':data[i].id}]);
+    tmp2 += m_button('global_offcloud_add_btn', 'Offcloud 추가', [{'key':'hash', 'value':data[i].magnet}]);
+    tmp2 += m_button('global_offcloud_cache_confirm_btn', 'Offcloud 캐쉬확인', [{'key':'hash', 'value':data[i].magnet}]);
+    if (is_torrent_info_installed) 
+      tmp2 += m_button('global_torrent_info_btn', 'TorrentInfo', [{'key':'hash', 'value':data[i].magnet}]);
+    tmp2 += m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
+    tmp2 += m_button('remove_btn', '삭제', [{'key':'id', 'value':data[i].id}]);
+    tmp2 = m_button_group(tmp2)
+    tmp += tmp2 + '<br>'
+
+    right += m_col(9, tmp);
+
+    tmp = data[i].created_time + ' (텔레그램 수신)'
+    if (data[i].download_check_time != null) {
+      tmp += '<br>' + data[i].download_check_time + ' (다운여부 판단)'
+    } 
+    if (data[i].downloader_item != null) {
+      tmp += '<br>' + data[i].downloader_item.created_time + ' (다운로드 요청)'
+      if (data[i].downloader_item.completed_time != '') {
+        tmp += '<br>' + data[i].downloader_item.completed_time + ' (다운로드 완료)' 
+        tmp += '<br>' + data[i].downloader_item.timedelta + ' (다운로드 시간)'
+      }
+    } 
+    right += m_col(3, tmp);
+    right += m_row_end();
+    str += m_col(10, right)
+    str += m_row_end();
+    if (i != data.length -1) str += m_hr();
+  }
+  document.getElementById("list_div").innerHTML = str;
+}
+
+</script>    
+{% endblock %}

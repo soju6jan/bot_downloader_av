@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block content %}
+ 
+<div>
+  {{ macros.m_button_group([['global_setting_save_btn', '설정 저장']])}}
+  {{ macros.m_row_start('5') }}
+  {{ macros.m_row_end() }}
+  <nav>  
+    {{ macros.m_tab_head_start() }}
+      {{ macros.m_tab_head2('normal', '일반', true) }}
+      {{ macros.m_tab_head2('censored', 'Censored', false) }}
+      {{ macros.m_tab_head2('uncensored', 'Uncensored', false) }}
+      {{ macros.m_tab_head2('western', 'Western', false) }}
+      {{ macros.m_tab_head2('fc2', 'FC2', false) }}
+      {{ macros.m_tab_head2('action', '기타', false) }}
+    {{ macros.m_tab_head_end() }}
+  </nav>
+    <form id='setting' name='setting'>  
+    <div class="tab-content" id="nav-tabContent">
+
+      {{ macros.m_tab_content_start('normal', true) }}
+        {{ macros.setting_global_scheduler_button(arg['scheduler'], arg['is_running']) }}
+        {{ macros.setting_input_int('interval', '스케쥴링 실행 주기', value=arg['interval'], min='1', placeholder='10', desc='minute 단위') }}
+        {{ macros.setting_checkbox('auto_start', '시작시 자동실행', value=arg['auto_start'], desc='On : 시작시 자동으로 사용 설정합니다.') }}
+        {{ macros.setting_radio('telegram_invoke_action', '텔레그램 수신시', ['실행하지 않음', '스케쥴링 중에만 실행', '스케쥴링 상태가 아니더라도 실행'], value=arg['telegram_invoke_action']) }}
+        {{ macros.setting_checkbox('receive_send_notify', '정보 수신시 알림', value=arg['receive_send_notify'], desc=['ID : bot_downloader_av_receive']) }}
+        {{ macros.setting_checkbox('result_send_notify', '처리 결과 알림', value=arg['result_send_notify'], desc=['ID : bot_downloader_av_result']) }}
+        {{ macros.setting_checkbox('show_poster', '포스터 표시', value=arg['show_poster']) }}
+        {{ macros.setting_checkbox('show_log', '목록에 조건처리 로그 표시', value=arg['show_log']) }}
+      {{ macros.m_tab_content_end() }}
+
+      {{ macros.m_tab_content_start('censored', false) }}
+        {{ macros.setting_checkbox('censored_receive', '수신', value=arg['censored_receive'], desc=['On : 수신 받은 데이터를 저장합니다.']) }}
+        {{ macros.setting_checkbox('censored_allow_duplicate', '동일 품번 중복 허용', value=arg['censored_allow_duplicate'], desc=['On : 동일 품번 중복 정보를 수신합니다.', 'Off : 동일 품번은 최초 수신된 것만 저장합니다.']) }}
+        {{ macros.setting_radio('censored_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['censored_auto_download']) }}
+        <div id="censored_auto_download_div" class="collapse">
+          {{ macros.setting_radio('censored_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['censored_torrent_program']) }}
+          {{ macros.setting_input_text('censored_path', '다운로드 경로', value=arg['censored_path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
+          {{ macros.setting_radio('censored_option_meta', '메타 매칭', ['전체', 'DMM', 'JAVDB'], value=arg['censored_option_meta']) }}
+
+          {{ macros.setting_radio('censored_option_mode', '조건 - 모드', ['블랙리스트', '화이트리스트'], desc=['블랙리스트는 조건일치시 다운로드 하지 않고, 화이트리스트는 조건일치시 다운로드 합니다.'], value=arg['censored_option_mode']) }}
+
+          {{ macros.setting_input_textarea('censored_option_label', '조건 - 레이블', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['censored_option_label'], row='3') }}
+          {{ macros.setting_input_textarea('censored_option_genre', '조건 - 장르', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['censored_option_genre'], row='3') }}
+          {{ macros.setting_input_textarea('censored_option_performer', '조건 - 배우', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['censored_option_performer'], row='3') }}
+        </div>
+      {{ macros.m_tab_content_end() }}
+
+      {{ macros.m_tab_content_start('uncensored', false) }}
+        {{ macros.setting_checkbox('uncensored_receive', '수신', value=arg['uncensored_receive'], desc=['On : 수신 받은 데이터를 저장합니다.']) }}
+        {{ macros.setting_checkbox('uncensored_allow_duplicate', '동일 품번 중복 허용', value=arg['uncensored_allow_duplicate'], desc=['On : 동일 품번 중복 정보를 수신합니다.', 'Off : 동일 품번은 최초 수신된 것만 저장합니다.']) }}
+        {{ macros.setting_radio('uncensored_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['uncensored_auto_download']) }}
+        <div id="uncensored_auto_download_div" class="collapse">
+          {{ macros.setting_radio('uncensored_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['uncensored_torrent_program']) }}
+          {{ macros.setting_input_text('uncensored_path', '다운로드 경로', value=arg['uncensored_path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
+          {{ macros.setting_radio('uncensored_option_mode', '조건 - 모드', ['블랙리스트', '화이트리스트'], desc=['블랙리스트는 조건일치시 다운로드 하지 않고, 화이트리스트는 조건일치시 다운로드 합니다.'], value=arg['uncensored_option_mode']) }}
+          {{ macros.setting_input_textarea('uncensored_option_label', '조건 - 레이블', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['uncensored_option_label'], row='3') }}
+          {{ macros.setting_input_textarea('uncensored_option_genre', '조건 - 장르', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['uncensored_option_genre'], row='3') }}
+          {{ macros.setting_input_textarea('uncensored_option_performer', '조건 - 배우', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['uncensored_option_performer'], row='3') }}
+        </div>
+      {{ macros.m_tab_content_end() }}
+
+      {{ macros.m_tab_content_start('western', false) }}
+        {{ macros.setting_checkbox('western_receive', '수신', value=arg['western_receive'], desc=['On : 수신 받은 데이터를 저장합니다.']) }}
+        {{ macros.setting_checkbox('western_allow_duplicate', '동일 품번 중복 허용', value=arg['western_allow_duplicate'], desc=['On : 동일 품번 중복 정보를 수신합니다.', 'Off : 동일 품번은 최초 수신된 것만 저장합니다.']) }}
+        {{ macros.setting_radio('western_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['western_auto_download']) }}
+        <div id="western_auto_download_div" class="collapse">
+          {{ macros.setting_radio('western_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['western_torrent_program']) }}
+          {{ macros.setting_input_text('western_path', '다운로드 경로', value=arg['western_path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
+          {{ macros.setting_radio('western_option_mode', '조건 - 모드', ['블랙리스트', '화이트리스트'], desc=['블랙리스트는 조건일치시 다운로드 하지 않고, 화이트리스트는 조건일치시 다운로드 합니다.'], value=arg['western_option_mode']) }}
+          {{ macros.setting_input_textarea('western_option_label', '조건 - 레이블', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['western_option_label'], row='3') }}
+          {{ macros.setting_input_textarea('western_option_genre', '조건 - 장르', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['western_option_genre'], row='3') }}
+          {{ macros.setting_input_textarea('western_option_performer', '조건 - 배우', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['western_option_performer'], row='3') }}
+        </div>
+      {{ macros.m_tab_content_end() }}
+      
+      {{ macros.m_tab_content_start('fc2', false) }}
+        {{ macros.setting_checkbox('fc2_receive', '수신', value=arg['fc2_receive'], desc=['On : 수신 받은 데이터를 저장합니다.']) }}
+        {{ macros.setting_checkbox('fc2_allow_duplicate', '동일 품번 중복 허용', value=arg['fc2_allow_duplicate'], desc=['On : 동일 품번 중복 정보를 수신합니다.', 'Off : 동일 품번은 최초 수신된 것만 저장합니다.']) }}
+        {{ macros.setting_radio('fc2_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['fc2_auto_download']) }}
+        <div id="fc2_auto_download_div" class="collapse">
+          {{ macros.setting_radio('fc2_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['fc2_torrent_program']) }}
+          {{ macros.setting_input_text('fc2_path', '다운로드 경로', value=arg['fc2_path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
+          {{ macros.setting_radio('fc2_option_mode', '조건 - 모드', ['블랙리스트', '화이트리스트'], desc=['블랙리스트는 조건일치시 다운로드 하지 않고, 화이트리스트는 조건일치시 다운로드 합니다.'], value=arg['fc2_option_mode']) }}
+          {{ macros.setting_input_textarea('fc2_option_label', '조건 - 레이블', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['fc2_option_label'], row='3') }}
+          {{ macros.setting_input_textarea('fc2_option_genre', '조건 - 장르', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['fc2_option_genre'], row='3') }}
+          {{ macros.setting_input_textarea('fc2_option_performer', '조건 - 배우', desc=['빈칸인 조건을 검사하지 않습니다. 구분자 |'], value=arg['fc2_option_performer'], row='3') }}
+        </div>
+      {{ macros.m_tab_content_end() }}
+
+      {{ macros.m_tab_content_start('action', false) }}
+        {{ macros.setting_button([['global_one_execute_btn', '1회 실행']], left='1회 실행' ) }}
+        {{ macros.setting_button([['global_reset_db_btn', '목록 전체 지우기']], left='DB정리' ) }}
+        {{ macros.info_text_and_buttons('last_id', '마지막 ID', [['reset_last_index_btn', 'ID 초기화']], value='마지막 ID : ' + arg['last_id'], desc=['DB에 저장된 Index를 지웁니다', '최초 시작처럼 7일 이내 데이터를 모두 처리합니다.']) }}
+        {{ macros.m_hr() }}
+        {{ macros.info_text_go('rss_api', 'RSS API', value=arg['rss_api'], desc=['파라미터', ' - type : 타입. censored, uncensored, western, fc2', ' - search : 품번 키워드. 연산자 지원', '- count : 피드 수. 기본값 100', '- option : 생략가능.', '> wait : 판단이전', '> true : 조건일치 - 요청', '> false : 조건불일치 - 패스', '> true_only_status : 조건일치 - 상태만', '> false_only_status : 조건불일치 - 상태만', '> no : 자동다운로드 사용 안함', '', '연산자', '- AND 연산자 : 구분자 ,', '- OR연산자 : 구분자 |', '']) }}
+
+      {{ macros.m_tab_content_end() }}  
+    </div><!--tab-content-->
+    </form>
+  </div><!--전체-->
+
+<script type="text/javascript">
+var package_name = "{{arg['package_name'] }}";
+var current_data = null;
+
+$(document).ready(function(){
+  if (parseInt( "{{arg['censored_auto_download']}}" )>= 1) {
+    $('#censored_auto_download_div').collapse('show')
+  }
+  if (parseInt( "{{arg['uncensored_auto_download']}}" )>= 1) {
+    $('#uncensored_auto_download_div').collapse('show')
+  }
+  if (parseInt( "{{arg['western_auto_download']}}" )>= 1) {
+    $('#western_auto_download_div').collapse('show')
+  }
+  if (parseInt( "{{arg['fc2_auto_download']}}" )>= 1) {
+    $('#fc2_auto_download_div').collapse('show')
+  }
+});
+
+
+$('input[type=radio][name=censored_auto_download]').change(function() {
+  if (this.value == 0) {
+    $('#censored_auto_download_div').collapse('hide')
+  } else {
+    $('#censored_auto_download_div').collapse('show')
+  }
+});
+
+$('input[type=radio][name=uncensored_auto_download]').change(function() {
+  if (this.value == 0) {
+    $('#uncensored_auto_download_div').collapse('hide')
+  } else {
+    $('#uncensored_auto_download_div').collapse('show')
+  }
+});
+
+$('input[type=radio][name=western_auto_download]').change(function() {
+  if (this.value == 0) {
+    $('#western_auto_download_div').collapse('hide')
+  } else {
+    $('#western_auto_download_div').collapse('show')
+  }
+});
+
+$('input[type=radio][name=fc2_auto_download]').change(function() {
+  if (this.value == 0) {
+    $('#fc2_auto_download_div').collapse('hide')
+  } else {
+    $('#fc2_auto_download_div').collapse('show')
+  }
+});
+
+$("body").on('click', '#reset_last_index_btn', function(e){
+  e.preventDefault();
+  $.ajax({
+    url: '/' + package_name + '/ajax/reset_last_index',
+    type: "POST", 
+    cache: false,
+    data: {},
+    dataType: "json",
+    success: function (ret) {
+      if (ret) {
+        $.notify('<strong>초기화 하였습니다.</strong>', {
+          type: 'success'
+        });
+      } else {
+        $.notify('<strong>작업 시작에 실패하였습니다.</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
+
+</script>    
+{% endblock %}
