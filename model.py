@@ -187,12 +187,16 @@ class ModelItem(db.Model):
             if entity is not None:
                 logger.debug('magnet exist')
                 return
-            
-            if not ModelSetting.get_bool('%s_allow_duplicate' % data['av_type']) and 'av' in data:
-                entity = db.session.query(ModelItem).filter_by(code=data['av']['code']).first()
-                if entity is not None:
-                    logger.debug('duplicate : %s', data['av']['code'])
-                    return
+            try:
+                if not ModelSetting.get_bool('%s_allow_duplicate' % data['av_type']) and 'av' in data:
+                    entity = db.session.query(ModelItem).filter_by(code=data['av']['code']).first()
+                    if entity is not None:
+                        logger.debug('duplicate : %s', data['av']['code'])
+                        return
+            except:
+                logger.debug('***********')
+                logger.debug(data)
+                return
 
             entity =  ModelItem()
             entity.data = data
