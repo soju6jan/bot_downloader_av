@@ -207,7 +207,7 @@ function make_list(data) {
       tmp2 = '⛔조건불일치 - 상태만'
     }
 
-    if (show_log && data[i].log != '') {
+    if (show_log && data[i].log != '' && data[i].log != null) {
       tmp2 += '<pre>' + data[i].log + '</pre>'
     }
 
