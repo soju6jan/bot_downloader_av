@@ -41,7 +41,7 @@ class LogicNormal(object):
                     url = '%s/%s/api/add_download?id=%s' % (SystemModelSetting.get('ddns'), package_name, ret.id)
                     if SystemModelSetting.get_bool('auth_use_apikey'):
                         url += '&apikey=%s' % SystemModelSetting.get('auth_apikey')
-                    msg += '\n➕ 다운로드 추가\n%s\n' % url
+                    msg += '\n➕ 다운로드 추가\n<%s>\n' % url
                     
                     import framework.common.notify as Notify
                     Notify.send_message(msg, image_url=ret.poster, message_id='bot_downloader_av_receive')
