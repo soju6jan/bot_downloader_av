@@ -34,20 +34,17 @@ class LogicNormal(object):
             #ret = None
             if ret is not None:
                 if ModelSetting.get_bool('receive_send_notify'):
-                    from telegram_bot import TelegramHandle
-
                     msg = '😉 AV 정보 수신\n'
                     msg += '제목 : [%s] %s (%s)\n' % (ret.code, ret.title, ret.date)
                     msg += '파일 : %s\n' % ret.filename
                     
-                    #if ret.poster is not None:
-                    #    TelegramHandle.sendMessage(ret.poster, mime='photo')
-                    #    pass
                     url = '%s/%s/api/add_download?id=%s' % (SystemModelSetting.get('ddns'), package_name, ret.id)
                     if SystemModelSetting.get_bool('auth_use_apikey'):
                         url += '&apikey=%s' % SystemModelSetting.get('auth_apikey')
                     msg += '\n➕ 다운로드 추가\n%s\n' % url
-                    TelegramHandle.sendMessage(msg)
+                    
+                    import framework.common.notify as Notify
+                    Notify.send_message(msg, image_url=ret.poster, message_id='bot_downloader_av_receive')
                 LogicNormal.invoke()
                 TorrentProcess.receive_new_data(ret, package_name)
         except Exception, e:
@@ -59,7 +56,7 @@ class LogicNormal(object):
     @staticmethod
     def send_telegram_message(item):
         try:
-            import telegram_bot
+            
             msg = '😉 봇 다운로드 - AV 처리결과\n'
             msg += '제목 : [%s] %s (%s)\n' % (item.code, item.title, item.date)
             msg += '파일 : %s\n' % item.filename
@@ -78,7 +75,8 @@ class LogicNormal(object):
             msg += '결과 : %s\n' % status_str
             msg += '%s/%s/list\n' % (SystemLogic.get_setting_value('ddns'), package_name)
             msg += '로그\n' + item.log
-            telegram_bot.TelegramHandle.sendMessage(msg)
+            import framework.common.notify as Notify
+            Notify.send_message(msg, message_id='bot_downloader_av_result')
         except Exception as e: 
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())
