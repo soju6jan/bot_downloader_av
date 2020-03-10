@@ -265,6 +265,8 @@ class LogicNormal(object):
     
     @staticmethod
     def check_option(option, value):
+        if value is None:
+            return None
         condition_list = ModelSetting.get_list(option)
         if condition_list:
             for condition in condition_list:
