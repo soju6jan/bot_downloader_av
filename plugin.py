@@ -92,7 +92,7 @@ def first_menu(sub):
         except Exception as e: 
             pass
         arg['ddns'] = SystemModelSetting.get('ddns')
-        arg['show_log'] = ModelSetting.get('show_log')
+        arg['show_log'] = ModelSetting.get_bool('show_log')
         arg['show_poster'] = ModelSetting.get('show_poster')
         return render_template('%s_list.html' % package_name, arg=arg)
     elif sub == 'log':

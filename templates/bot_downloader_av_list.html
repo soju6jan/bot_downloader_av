@@ -54,6 +54,8 @@ var is_torrent_info_installed = ("{{arg['is_torrent_info_installed']}}" == 'True
 var is_available_normal_download = ("{{arg['is_available_normal_download']}}" == 'True')
 var ddns = "{{arg['ddns']}}";
 var show_log = ("{{arg['show_log']}}" == 'True')
+var show_poster = ("{{arg['show_poster']}}" == 'True')
+
 
 $(document).ready(function(){
   request_search('1');
@@ -172,7 +174,7 @@ function make_list(data) {
     //console.log(data[i])
     if (data[i].download_status == null) data[i].download_status = '';
     str += m_row_start();
-    if ( data[i].poster != null && show_log)
+    if ( data[i].poster != null && show_poster)
       tmp = '<img src="' + data[i].poster + '" class="img-fluid">'
     else 
       tmp = ''
