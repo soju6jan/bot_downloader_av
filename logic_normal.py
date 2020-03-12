@@ -77,7 +77,7 @@ class LogicNormal(object):
                 status_str = '⛔조건불일치 - 상태만'
 
             msg += '결과 : %s\n' % status_str
-            msg += '%s/%s/list\n' % (SystemLogic.get_setting_value('ddns'), package_name)
+            msg += '%s/%s/list\n' % (SystemModelSetting.get('ddns'), package_name)
             msg += '로그\n' + item.log
             import framework.common.notify as Notify
             Notify.send_message(msg, message_id='bot_downloader_av_result')
