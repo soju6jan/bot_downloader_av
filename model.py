@@ -185,18 +185,18 @@ class ModelItem(db.Model):
             magnet = 'magnet:?xt=urn:btih:' + data['t']['hash']
             entity = db.session.query(ModelItem).filter_by(magnet=magnet).first()
             if entity is not None:
-                logger.debug('magnet exist')
+                logger.debug('magnet exist') 
                 return
             try:
                 if not ModelSetting.get_bool('%s_allow_duplicate' % data['av_type']) and 'av' in data:
-                    entity = db.session.query(ModelItem).filter_by(code=data['av']['code']).first()
+                    entity = db.session.query(ModelItem).filter_by(code=data['av']['code_show']).first()
                     if entity is not None:
-                        logger.debug('duplicate : %s', data['av']['code'])
+                        logger.debug('duplicate : %s', data['av']['code_show'])
                         return
             except:
                 logger.debug('***********')
                 logger.debug(data)
-                return
+                #return
 
             entity =  ModelItem()
             entity.data = data
