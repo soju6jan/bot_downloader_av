@@ -42,6 +42,7 @@ class Logic(object):
         'censored_option_label' : '',
         'censored_option_genre' : '',
         'censored_option_performer' : '',
+        'censored_allow_duplicate2' : '0',
         
         'censored_option_meta' : '0',
 
@@ -54,6 +55,7 @@ class Logic(object):
         'uncensored_option_label' : '',
         'uncensored_option_genre' : '',
         'uncensored_option_performer' : '',
+        'uncensored_allow_duplicate2' : '0',
 
         'western_receive' : 'True',
         'western_allow_duplicate' : 'True',
@@ -64,6 +66,8 @@ class Logic(object):
         'western_option_label' : '',
         'western_option_genre' : '',
         'western_option_performer' : '',
+        'western_allow_duplicate2' : '0',
+
 
         'fc2_receive' : 'True',
         'fc2_allow_duplicate' : 'True',
@@ -74,6 +78,8 @@ class Logic(object):
         'fc2_option_label' : '',
         'fc2_option_genre' : '',
         'fc2_option_performer' : '',
+        'fc2_allow_duplicate2' : '0',
+
 
     }
 

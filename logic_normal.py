@@ -37,6 +37,8 @@ class LogicNormal(object):
                     msg = '😉 AV 정보 수신\n'
                     msg += '제목 : [%s] %s (%s)\n' % (ret.code, ret.title, ret.date)
                     msg += '파일 : %s\n' % ret.filename
+                    msg += '폴더 : %s\n' % ret.dirname
+                    msg += '크기 : %s\n' % Util.sizeof_fmt(ret.total_size)
                     
                     url = '%s/%s/api/add_download?id=%s' % (SystemModelSetting.get('ddns'), package_name, ret.id)
                     if SystemModelSetting.get_bool('auth_use_apikey'):

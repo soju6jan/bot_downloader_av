@@ -31,7 +31,7 @@
 
       {{ macros.m_tab_content_start('censored', false) }}
         {{ macros.setting_checkbox('censored_receive', '수신', value=arg['censored_receive'], desc=['On : 수신 받은 데이터를 저장합니다.']) }}
-        {{ macros.setting_checkbox('censored_allow_duplicate', '동일 품번 중복 허용', value=arg['censored_allow_duplicate'], desc=['On : 동일 품번 중복 정보를 수신합니다.', 'Off : 동일 품번은 최초 수신된 것만 저장합니다.']) }}
+        {{ macros.setting_radio('censored_allow_duplicate2', '동일 품번', ['모두 수신', '기존 영상보다 고용량일 경우 수신', '동일 품번 수신하지 않음'], value=arg['censored_allow_duplicate2']) }}
         {{ macros.setting_radio('censored_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['censored_auto_download']) }}
         <div id="censored_auto_download_div" class="collapse">
           {{ macros.setting_radio('censored_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['censored_torrent_program']) }}
@@ -48,7 +48,7 @@
 
       {{ macros.m_tab_content_start('uncensored', false) }}
         {{ macros.setting_checkbox('uncensored_receive', '수신', value=arg['uncensored_receive'], desc=['On : 수신 받은 데이터를 저장합니다.']) }}
-        {{ macros.setting_checkbox('uncensored_allow_duplicate', '동일 품번 중복 허용', value=arg['uncensored_allow_duplicate'], desc=['On : 동일 품번 중복 정보를 수신합니다.', 'Off : 동일 품번은 최초 수신된 것만 저장합니다.']) }}
+        {{ macros.setting_radio('uncensored_allow_duplicate2', '동일 품번', ['모두 수신', '기존 영상보다 고용량일 경우 수신', '동일 품번 수신하지 않음'], value=arg['uncensored_allow_duplicate2']) }}
         {{ macros.setting_radio('uncensored_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['uncensored_auto_download']) }}
         <div id="uncensored_auto_download_div" class="collapse">
           {{ macros.setting_radio('uncensored_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['uncensored_torrent_program']) }}
@@ -62,7 +62,7 @@
 
       {{ macros.m_tab_content_start('western', false) }}
         {{ macros.setting_checkbox('western_receive', '수신', value=arg['western_receive'], desc=['On : 수신 받은 데이터를 저장합니다.']) }}
-        {{ macros.setting_checkbox('western_allow_duplicate', '동일 품번 중복 허용', value=arg['western_allow_duplicate'], desc=['On : 동일 품번 중복 정보를 수신합니다.', 'Off : 동일 품번은 최초 수신된 것만 저장합니다.']) }}
+        {{ macros.setting_radio('western_allow_duplicate2', '동일 품번', ['모두 수신', '기존 영상보다 고용량일 경우 수신', '동일 품번 수신하지 않음'], value=arg['western_allow_duplicate2']) }}
         {{ macros.setting_radio('western_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['western_auto_download']) }}
         <div id="western_auto_download_div" class="collapse">
           {{ macros.setting_radio('western_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['western_torrent_program']) }}
@@ -76,7 +76,7 @@
       
       {{ macros.m_tab_content_start('fc2', false) }}
         {{ macros.setting_checkbox('fc2_receive', '수신', value=arg['fc2_receive'], desc=['On : 수신 받은 데이터를 저장합니다.']) }}
-        {{ macros.setting_checkbox('fc2_allow_duplicate', '동일 품번 중복 허용', value=arg['fc2_allow_duplicate'], desc=['On : 동일 품번 중복 정보를 수신합니다.', 'Off : 동일 품번은 최초 수신된 것만 저장합니다.']) }}
+        {{ macros.setting_radio('fc2_allow_duplicate2', '동일 품번', ['모두 수신', '기존 영상보다 고용량일 경우 수신', '동일 품번 수신하지 않음'], value=arg['fc2_allow_duplicate2']) }}
         {{ macros.setting_radio('fc2_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['fc2_auto_download']) }}
         <div id="fc2_auto_download_div" class="collapse">
           {{ macros.setting_radio('fc2_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['fc2_torrent_program']) }}

@@ -187,6 +187,7 @@ class ModelItem(db.Model):
             if entity is not None:
                 logger.debug('magnet exist') 
                 return
+            """
             try:
                 if not ModelSetting.get_bool('%s_allow_duplicate' % data['av_type']) and 'av' in data:
                     entity = db.session.query(ModelItem).filter_by(code=data['av']['code_show']).first()
@@ -197,6 +198,33 @@ class ModelItem(db.Model):
                 logger.debug('***********')
                 logger.debug(data)
                 #return
+            """
+
+            try:
+                allow_duplicate2 = ModelSetting.get('%s_allow_duplicate2' % data['av_type'])
+                logger.debug('allow_duplicate2 : %s' % allow_duplicate2)
+                if allow_duplicate2 == '1' and 'av' in data:
+                    entities = db.session.query(ModelItem).filter_by(code=data['av']['code_show']).all()
+                    # Max 쿼리로 변경해야함.
+                    is_max_size = True
+                    for entity in entities:
+                        logger.debug('entity.total_size : %s', entity.total_size)
+                        if entity.total_size > data['av']['size']:
+                            is_max_size = False
+                            break
+                    if is_max_size:
+                        logger.debug('duplicate : %s', data['av']['code_show'])
+                        return
+                elif allow_duplicate2 == '2' and 'av' in data:
+                    entity = db.session.query(ModelItem).filter_by(code=data['av']['code_show']).first()
+                    if entity is not None:
+                        logger.debug('duplicate : %s', data['av']['code_show'])
+                        return
+            except:
+                logger.debug('***********')
+                logger.debug(data)
+                #return
+
 
             entity =  ModelItem()
             entity.data = data
