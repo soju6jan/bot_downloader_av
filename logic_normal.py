@@ -5,7 +5,7 @@ import os
 import datetime
 import traceback
 import urllib
-
+import re
 # third-party
 from sqlalchemy import desc
 from sqlalchemy import or_, and_, func, not_
@@ -197,38 +197,48 @@ class LogicNormal(object):
                                 flag_download = True
                                 item.log += u'%s\n' % flag_download
                                 if flag_download:
+                                    ret = LogicNormal.check_option('%s_option_filter' % item.av_type, item.filename)
+                                    if ret is not None:
+                                        flag_download = not ret
+                                        item.log += u'1. 파일명 - %s : %s\n' % (item.filename, flag_download)
+                                if flag_download:
                                     ret = LogicNormal.check_option('%s_option_label' % item.av_type, item.code)
                                     if ret is not None:
                                         flag_download = not ret
-                                        item.log += u'1. 레이블 - %s : %s\n' % (item.code, flag_download)
+                                        item.log += u'2. 레이블 - %s : %s\n' % (item.code, flag_download)
                                 if flag_download:
                                     ret = LogicNormal.check_option('%s_option_genre' % item.av_type, item.genre)
                                     if ret is not None:
                                         flag_download = not ret
-                                        item.log += u'2. 장르 - %s : %s\n' % (item.genre, flag_download)
+                                        item.log += u'3. 장르 - %s : %s\n' % (item.genre, flag_download)
                                 if flag_download:
                                     ret = LogicNormal.check_option('%s_option_performer' % item.av_type, item.performer)
                                     if ret is not None:
                                         flag_download = not ret
-                                        item.log += u'3. 배우 - %s : %s\n' % (item.performer, flag_download)
+                                        item.log += u'4. 배우 - %s : %s\n' % (item.performer, flag_download)
                             else:
                                 flag_download = False
                                 item.log += u'%s\n' % flag_download
                                 if not flag_download:
+                                    ret = LogicNormal.check_option('%s_option_label' % item.av_type, item.filename)
+                                    if ret is not None:
+                                        flag_download = ret
+                                        item.log += u'1. 파일명 - %s : %s\n' % (item.filename, flag_download)
+                                if not flag_download:
                                     ret = LogicNormal.check_option('%s_option_label' % item.av_type, item.code)
                                     if ret is not None:
                                         flag_download = ret
-                                        item.log += u'1. 레이블 - %s : %s\n' % (item.code, flag_download)
+                                        item.log += u'2. 레이블 - %s : %s\n' % (item.code, flag_download)
                                 if not flag_download:
                                     ret = LogicNormal.check_option('%s_option_genre' % item.av_type, item.genre)
                                     if ret is not None:
                                         flag_download = ret
-                                        item.log += u'2. 장르 - %s : %s\n' % (item.genre, flag_download)
+                                        item.log += u'3. 장르 - %s : %s\n' % (item.genre, flag_download)
                                 if not flag_download:
                                     ret = LogicNormal.check_option('%s_option_performer' % item.av_type, item.performer)
                                     if ret is not None:
                                         flag_download = ret
-                                        item.log += u'3. 배우 - %s : %s\n' % (item.performer, flag_download)
+                                        item.log += u'4. 배우 - %s : %s\n' % (item.performer, flag_download)
                         item.log += u'4. 다운여부 : %s' % (flag_download)    
                         #다운로드
                         if flag_download:
@@ -277,6 +287,9 @@ class LogicNormal(object):
         if condition_list:
             for condition in condition_list:
                 if value.replace(' ', '').lower().find(condition.lower()) != -1:
+                    return True
+                match = re.search(condition, value)
+                if match:
                     return True
             return False
         return None   
