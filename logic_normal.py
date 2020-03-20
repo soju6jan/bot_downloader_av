@@ -43,7 +43,7 @@ class LogicNormal(object):
                     url = '%s/%s/api/add_download?id=%s' % (SystemModelSetting.get('ddns'), package_name, ret.id)
                     if SystemModelSetting.get_bool('auth_use_apikey'):
                         url += '&apikey=%s' % SystemModelSetting.get('auth_apikey')
-                    if SystemModelSetting.get('ddns').startswith('https://sjva-dev'):
+                    if app.config['config']['is_sjva_server']:
                         msg += '\n' + ret.magnet + '\n'
                     else:
                         msg += '\n➕ 다운로드 추가\n<%s>\n' % url
