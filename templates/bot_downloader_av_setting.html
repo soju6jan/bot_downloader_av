@@ -34,7 +34,7 @@
         {{ macros.setting_radio('censored_allow_duplicate2', '동일 품번', ['모두 수신', '기존 영상보다 고용량일 경우 수신', '동일 품번 수신하지 않음'], value=arg['censored_allow_duplicate2']) }}
         {{ macros.setting_radio('censored_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['censored_auto_download']) }}
         <div id="censored_auto_download_div" class="collapse">
-          {{ macros.setting_radio('censored_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['censored_torrent_program']) }}
+          {{ macros.setting_radio('censored_torrent_program', '토렌트 프로그램', ['트랜스미션', '다운로드 스테이션', '큐빗토렌트', 'aria2'], value=arg['censored_torrent_program']) }}
           {{ macros.setting_input_text('censored_path', '다운로드 경로', value=arg['censored_path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
           {{ macros.setting_radio('censored_option_meta', '메타 매칭', ['전체', 'DMM', 'JAVDB'], value=arg['censored_option_meta']) }}
 
@@ -51,7 +51,7 @@
         {{ macros.setting_radio('uncensored_allow_duplicate2', '동일 품번', ['모두 수신', '기존 영상보다 고용량일 경우 수신', '동일 품번 수신하지 않음'], value=arg['uncensored_allow_duplicate2']) }}
         {{ macros.setting_radio('uncensored_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['uncensored_auto_download']) }}
         <div id="uncensored_auto_download_div" class="collapse">
-          {{ macros.setting_radio('uncensored_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['uncensored_torrent_program']) }}
+          {{ macros.setting_radio('uncensored_torrent_program', '토렌트 프로그램', ['트랜스미션', '다운로드 스테이션', '큐빗토렌트', 'aria2'], value=arg['uncensored_torrent_program']) }}
           {{ macros.setting_input_text('uncensored_path', '다운로드 경로', value=arg['uncensored_path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
           {{ macros.setting_radio('uncensored_option_mode', '조건 - 모드', ['블랙리스트', '화이트리스트'], desc=['블랙리스트는 조건일치시 다운로드 하지 않고, 화이트리스트는 조건일치시 다운로드 합니다.'], value=arg['uncensored_option_mode']) }}
           {{ macros.setting_input_textarea('uncensored_option_filter', '조건 - 파일명', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['uncensored_option_filter'], row='3') }}
@@ -66,7 +66,7 @@
         {{ macros.setting_radio('western_allow_duplicate2', '동일 품번', ['모두 수신', '기존 영상보다 고용량일 경우 수신', '동일 품번 수신하지 않음'], value=arg['western_allow_duplicate2']) }}
         {{ macros.setting_radio('western_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['western_auto_download']) }}
         <div id="western_auto_download_div" class="collapse">
-          {{ macros.setting_radio('western_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['western_torrent_program']) }}
+          {{ macros.setting_radio('western_torrent_program', '토렌트 프로그램', ['트랜스미션', '다운로드 스테이션', '큐빗토렌트', 'aria2'], value=arg['western_torrent_program']) }}
           {{ macros.setting_input_text('western_path', '다운로드 경로', value=arg['western_path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
           {{ macros.setting_radio('western_option_mode', '조건 - 모드', ['블랙리스트', '화이트리스트'], desc=['블랙리스트는 조건일치시 다운로드 하지 않고, 화이트리스트는 조건일치시 다운로드 합니다.'], value=arg['western_option_mode']) }}
           {{ macros.setting_input_textarea('western_option_filter', '조건 - 파일명', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['western_option_filter'], row='3') }}
@@ -81,7 +81,7 @@
         {{ macros.setting_radio('fc2_allow_duplicate2', '동일 품번', ['모두 수신', '기존 영상보다 고용량일 경우 수신', '동일 품번 수신하지 않음'], value=arg['fc2_allow_duplicate2']) }}
         {{ macros.setting_radio('fc2_auto_download', '자동 다운로드', ['사용 안함(정보만 수신)', '자동 다운로드', '다운로드 조건만 체크하여 표시. Offcloud 등 타앱에서 RSS로 사용시'], value=arg['fc2_auto_download']) }}
         <div id="fc2_auto_download_div" class="collapse">
-          {{ macros.setting_radio('fc2_torrent_program', '토렌트 프로그램', ['Transmission', 'DownloadStation'], value=arg['fc2_torrent_program']) }}
+          {{ macros.setting_radio('fc2_torrent_program', '토렌트 프로그램', ['트랜스미션', '다운로드 스테이션', '큐빗토렌트', 'aria2'], value=arg['fc2_torrent_program']) }}
           {{ macros.setting_input_text('fc2_path', '다운로드 경로', value=arg['fc2_path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
           {{ macros.setting_radio('fc2_option_mode', '조건 - 모드', ['블랙리스트', '화이트리스트'], desc=['블랙리스트는 조건일치시 다운로드 하지 않고, 화이트리스트는 조건일치시 다운로드 합니다.'], value=arg['fc2_option_mode']) }}
           {{ macros.setting_input_textarea('fc2_option_filter', '조건 - 파일명', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['fc2_option_filter'], row='3') }}
