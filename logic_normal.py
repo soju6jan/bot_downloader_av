@@ -49,8 +49,9 @@ class LogicNormal(object):
                         msg += '\n➕ 다운로드 추가\n<%s>\n' % url
                     #msg += '\n➕ 다운로드 추가\n<%s>\n' % url
                     
+                    poster = ret.poster if ModelSetting.get_bool('show_poster_notify') else None
                     import framework.common.notify as Notify
-                    Notify.send_message(msg, image_url=ret.poster, message_id='bot_downloader_av_receive')
+                    Notify.send_message(msg, image_url=poster, message_id='bot_downloader_av_receive')
                 LogicNormal.invoke()
                 TorrentProcess.receive_new_data(ret, package_name)
         except Exception, e:

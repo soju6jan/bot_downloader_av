@@ -31,6 +31,7 @@ class Logic(object):
         'show_poster' : 'False',
         'show_log' : 'True',
         'last_id' : '-1', 
+        'show_poster_notify' : 'False',
 
 
         'censored_receive' : 'True',
