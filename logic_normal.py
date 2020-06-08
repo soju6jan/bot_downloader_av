@@ -240,7 +240,25 @@ class LogicNormal(object):
                                     if ret is not None:
                                         flag_download = ret
                                         item.log += u'4. 배우 - %s : %s\n' % (item.performer, flag_download)
-                        item.log += u'4. 다운여부 : %s' % (flag_download)    
+
+                        if flag_download and item.av_type == 'censored':
+                            try:
+                                option_min_size = float(str(ModelSetting.get('censored_option_min_size'))) * (2 ** 30)
+                                option_max_size = float(str(ModelSetting.get('censored_option_max_size'))) * (2 ** 30)
+                                if option_min_size != 0 and item.total_size < option_min_size:
+                                    flag_download = False
+                                    item.log += u'5. 최소크기 - %s : %s\n' % (Util.sizeof_fmt(item.total_size, suffix='B'), flag_download)
+                                if option_max_size != 0 and item.total_size > option_max_size:
+                                    flag_download = False
+                                    item.log += u'5. 최대크기 - %s : %s\n' % (Util.sizeof_fmt(item.total_size, suffix='B'), flag_download)
+                                if flag_download:
+                                    item.log += u'5. 크기 - %s : %s\n' % (Util.sizeof_fmt(item.total_size, suffix='B'), flag_download)
+                            except Exception as e: 
+                                logger.error('Exception:%s', e)
+                                logger.error(traceback.format_exc())
+
+                        item.log += u'6. 다운여부 : %s' % (flag_download)    
+
                         #다운로드
                         if flag_download:
                             if option_auto_download == '1':
