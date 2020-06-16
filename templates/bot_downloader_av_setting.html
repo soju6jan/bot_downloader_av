@@ -64,6 +64,9 @@
           {{ macros.setting_input_textarea('uncensored_option_label', '조건 - 레이블', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['uncensored_option_label'], row='3') }}
           {{ macros.setting_input_textarea('uncensored_option_genre', '조건 - 장르', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['uncensored_option_genre'], row='3') }}
           {{ macros.setting_input_textarea('uncensored_option_performer', '조건 - 배우', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['uncensored_option_performer'], row='3') }}
+          {{ macros.m_hr() }}
+          {{ macros.setting_input_int('uncensored_option_min_size', '최소 크기', value=arg['uncensored_option_min_size'], desc=['이 값 보다 작으면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
+          {{ macros.setting_input_int('uncensored_option_max_size', '최대 크기', value=arg['uncensored_option_max_size'], desc=['이 값 보다 크면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
         </div>
       {{ macros.m_tab_content_end() }}
 
@@ -79,6 +82,9 @@
           {{ macros.setting_input_textarea('western_option_label', '조건 - 레이블', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['western_option_label'], row='3') }}
           {{ macros.setting_input_textarea('western_option_genre', '조건 - 장르', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['western_option_genre'], row='3') }}
           {{ macros.setting_input_textarea('western_option_performer', '조건 - 배우', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['western_option_performer'], row='3') }}
+          {{ macros.m_hr() }}
+          {{ macros.setting_input_int('western_option_min_size', '최소 크기', value=arg['western_option_min_size'], desc=['이 값 보다 작으면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
+          {{ macros.setting_input_int('western_option_max_size', '최대 크기', value=arg['western_option_max_size'], desc=['이 값 보다 크면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
         </div>
       {{ macros.m_tab_content_end() }}
       
@@ -94,6 +100,9 @@
           {{ macros.setting_input_textarea('fc2_option_label', '조건 - 레이블', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['fc2_option_label'], row='3') }}
           {{ macros.setting_input_textarea('fc2_option_genre', '조건 - 장르', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['fc2_option_genre'], row='3') }}
           {{ macros.setting_input_textarea('fc2_option_performer', '조건 - 배우', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['fc2_option_performer'], row='3') }}
+          {{ macros.m_hr() }}
+          {{ macros.setting_input_int('fc2_option_min_size', '최소 크기', value=arg['fc2_option_min_size'], desc=['이 값 보다 작으면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
+          {{ macros.setting_input_int('fc2_option_max_size', '최대 크기', value=arg['fc2_option_max_size'], desc=['이 값 보다 크면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
         </div>
       {{ macros.m_tab_content_end() }}
 

@@ -243,8 +243,8 @@ class LogicNormal(object):
 
                         if flag_download and item.av_type == 'censored':
                             try:
-                                option_min_size = float(str(ModelSetting.get('censored_option_min_size'))) * (2 ** 30)
-                                option_max_size = float(str(ModelSetting.get('censored_option_max_size'))) * (2 ** 30)
+                                option_min_size = float(str(ModelSetting.get('%s_option_min_size' % item.av_type))) * (2 ** 30)
+                                option_max_size = float(str(ModelSetting.get('%s_option_max_size' % item.av_type))) * (2 ** 30)
                                 if option_min_size != 0 and item.total_size < option_min_size:
                                     flag_download = False
                                     item.log += u'5. 최소크기 - %s : %s\n' % (Util.sizeof_fmt(item.total_size, suffix='B'), flag_download)

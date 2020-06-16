@@ -60,6 +60,8 @@ class Logic(object):
         'uncensored_option_genre' : '',
         'uncensored_option_performer' : '',
         'uncensored_allow_duplicate2' : '0',
+        'uncensored_option_min_size' : '0',
+        'uncensored_option_max_size' : '0',
 
         'western_receive' : 'True',
         'western_allow_duplicate' : 'True',
@@ -72,6 +74,8 @@ class Logic(object):
         'western_option_genre' : '',
         'western_option_performer' : '',
         'western_allow_duplicate2' : '0',
+        'western_option_min_size' : '0',
+        'western_option_max_size' : '0',
 
 
         'fc2_receive' : 'True',
@@ -85,7 +89,8 @@ class Logic(object):
         'fc2_option_genre' : '',
         'fc2_option_performer' : '',
         'fc2_allow_duplicate2' : '0',
-
+        'fc2_option_min_size' : '0',
+        'fc2_option_max_size' : '0',
 
     }
 
