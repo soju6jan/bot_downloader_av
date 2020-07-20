@@ -241,7 +241,7 @@ class LogicNormal(object):
                                         flag_download = ret
                                         item.log += u'4. 배우 - %s : %s\n' % (item.performer, flag_download)
 
-                        if flag_download and item.av_type == 'censored':
+                        if flag_download:# and item.av_type == 'censored':
                             try:
                                 option_min_size = float(str(ModelSetting.get('%s_option_min_size' % item.av_type))) * (2 ** 30)
                                 option_max_size = float(str(ModelSetting.get('%s_option_max_size' % item.av_type))) * (2 ** 30)
