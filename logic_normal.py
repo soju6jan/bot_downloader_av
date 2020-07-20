@@ -197,6 +197,12 @@ class LogicNormal(object):
                             if mode == 'blacklist':
                                 flag_download = True
                                 item.log += u'%s\n' % flag_download
+                                # 2020-07-20 웨스턴 폴더명 조건
+                                if flag_download and item.av_type == 'western': 
+                                    ret = LogicNormal.check_option('%s_option_foldername_filter' % item.av_type, item.dirname)
+                                    if ret is not None:
+                                        flag_download = not ret
+                                        item.log += u'0. 폴더명 - %s : %s\n' % (item.dirname, flag_download)
                                 if flag_download:
                                     ret = LogicNormal.check_option('%s_option_filter' % item.av_type, item.filename)
                                     if ret is not None:
@@ -220,8 +226,13 @@ class LogicNormal(object):
                             else:
                                 flag_download = False
                                 item.log += u'%s\n' % flag_download
+                                if not flag_download and item.av_type == 'western': 
+                                    ret = LogicNormal.check_option('%s_option_foldername_filter' % item.av_type, item.dirname)
+                                    if ret is not None:
+                                        flag_download = ret
+                                        item.log += u'0. 폴더명 - %s : %s\n' % (item.dirname, flag_download)
                                 if not flag_download:
-                                    ret = LogicNormal.check_option('%s_option_label' % item.av_type, item.filename)
+                                    ret = LogicNormal.check_option('%s_option_filter' % item.av_type, item.filename)
                                     if ret is not None:
                                         flag_download = ret
                                         item.log += u'1. 파일명 - %s : %s\n' % (item.filename, flag_download)

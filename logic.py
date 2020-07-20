@@ -76,6 +76,7 @@ class Logic(object):
         'western_allow_duplicate2' : '0',
         'western_option_min_size' : '0',
         'western_option_max_size' : '0',
+        'western_option_foldername_filter' : '',
 
 
         'fc2_receive' : 'True',

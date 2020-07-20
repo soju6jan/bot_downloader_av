@@ -78,6 +78,7 @@
           {{ macros.setting_radio('western_torrent_program', '토렌트 프로그램', ['트랜스미션', '다운로드 스테이션', '큐빗토렌트', 'aria2'], value=arg['western_torrent_program']) }}
           {{ macros.setting_input_text('western_path', '다운로드 경로', value=arg['western_path'], desc='토렌트 프로그램에 맞는 경로를 입력해야 합니다.') }}
           {{ macros.setting_radio('western_option_mode', '조건 - 모드', ['블랙리스트', '화이트리스트'], desc=['블랙리스트는 조건일치시 다운로드 하지 않고, 화이트리스트는 조건일치시 다운로드 합니다.'], value=arg['western_option_mode']) }}
+          {{ macros.setting_input_textarea('western_option_foldername_filter', '조건 - 폴더명', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['western_option_foldername_filter'], row='3') }}
           {{ macros.setting_input_textarea('western_option_filter', '조건 - 파일명', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['western_option_filter'], row='3') }}
           {{ macros.setting_input_textarea('western_option_label', '조건 - 레이블', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['western_option_label'], row='3') }}
           {{ macros.setting_input_textarea('western_option_genre', '조건 - 장르', desc=['빈칸인 조건은 검사하지 않습니다. 구분자 |'], value=arg['western_option_genre'], row='3') }}
