@@ -213,8 +213,10 @@ class ModelItem(db.Model):
                             is_max_size = False
                             break
                     if is_max_size:
-                        logger.debug('duplicate : %s', data['av']['code_show'])
-                        
+                        logger.debug('duplicate is_max_size=True: %s', data['av']['code_show'])
+                    else:
+                        logger.debug('duplicate is_max_size=False: %s', data['av']['code_show'])
+                        return
                 elif allow_duplicate2 == '2' and 'av' in data:
                     entity = db.session.query(ModelItem).filter_by(code=data['av']['code_show']).first()
                     if entity is not None:
