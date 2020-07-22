@@ -209,7 +209,7 @@ class ModelItem(db.Model):
                     is_max_size = True
                     for entity in entities:
                         logger.debug('entity.total_size : %s', entity.total_size)
-                        if entity.total_size > data['av']['size']:
+                        if entity.total_size > data['t']['size']:
                             is_max_size = False
                             break
                     if is_max_size:
@@ -222,7 +222,9 @@ class ModelItem(db.Model):
                     if entity is not None:
                         logger.debug('duplicate : %s', data['av']['code_show'])
                         return
-            except:
+            except Exception as e:
+                logger.error('Exception:%s', e)
+                logger.error(traceback.format_exc())
                 logger.debug('***********')
                 logger.debug(data)
                 #return
