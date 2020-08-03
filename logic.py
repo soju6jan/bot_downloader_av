@@ -21,7 +21,7 @@ from .logic_normal import LogicNormal
 
 class Logic(object):
     db_default = {
-        'db_version' : '1',         
+        'db_version' : '2',         
         'interval' : '30',
         'auto_start' : 'False',
         'web_page_size': '20',
@@ -205,7 +205,16 @@ class Logic(object):
     @staticmethod
     def migration():
         try:
-            db_version = ModelSetting.get('db_version')
+            if ModelSetting.get('db_version') == '1':
+                import sqlite3
+                db_file = os.path.join(path_app_root, 'data', 'db', '%s.db' % package_name)
+                connection = sqlite3.connect(db_file)
+                cursor = connection.cursor()
+                query = 'ALTER TABLE %s_item ADD server_id INT' % (package_name)
+                cursor.execute(query)
+                connection.close()
+                ModelSetting.set('db_version', '2')
+                db.session.flush()
             
                
         except Exception as e:

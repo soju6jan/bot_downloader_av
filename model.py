@@ -162,6 +162,9 @@ class ModelItem(db.Model):
 
     plex_info = db.Column(db.JSON)
 
+    # 2 버전 추가
+    server_id = db.Column(db.Integer)
+
     def __init__(self):
         self.created_time = datetime.now()
         self.download_status = ''
@@ -231,6 +234,7 @@ class ModelItem(db.Model):
 
 
             entity =  ModelItem()
+            entity.server_id = data['server_id']
             entity.data = data
             entity.av_type = data['av_type']
 
