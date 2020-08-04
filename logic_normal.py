@@ -134,7 +134,7 @@ class LogicNormal(object):
         try:
             import downloader
             item = ModelItem.get_by_id(db_id)
-            downloader_item_id = downloader.Logic.add_download2(item.magnet, ModelSetting.get('%s_torrent_program' % item.av_type), ModelSetting.get('%s_path' % item.av_type), request_type=package_name, request_sub_type='')['downloader_item_id']
+            downloader_item_id = downloader.Logic.add_download2(item.magnet, ModelSetting.get('%s_torrent_program' % item.av_type), ModelSetting.get('%s_path' % item.av_type), request_type=package_name, request_sub_type='', server_id=item.server_id)['downloader_item_id']
             item.downloader_item_id = downloader_item_id
             item.download_status = item.download_status.replace('|manual', '')
             item.download_status = '%s|manual' % item.download_status
@@ -274,7 +274,7 @@ class LogicNormal(object):
                         if flag_download:
                             if option_auto_download == '1':
                                 import downloader
-                                downloader_item_id = downloader.Logic.add_download2(item.magnet, ModelSetting.get('%s_torrent_program' % item.av_type), ModelSetting.get('%s_path' % item.av_type), request_type=package_name, request_sub_type='')['downloader_item_id']
+                                downloader_item_id = downloader.Logic.add_download2(item.magnet, ModelSetting.get('%s_torrent_program' % item.av_type), ModelSetting.get('%s_path' % item.av_type), request_type=package_name, request_sub_type='', server_id=item.server_id)['downloader_item_id']
                                 item.downloader_item_id = downloader_item_id
                                 item.download_status = 'true'
                             else:
