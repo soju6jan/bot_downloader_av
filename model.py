@@ -329,6 +329,7 @@ class ModelItem(db.Model):
             search = req.args.get('search')
             count = req.args.get('count')
             av_type = req.args.get('type')
+            server_id_mod = req.args.get('server_id_mod')
             if count is None or count == '':
                 count = 100
             query = ModelItem.make_query(option=option, search=search, av_type=av_type, server_id_mod=server_id_mod)
