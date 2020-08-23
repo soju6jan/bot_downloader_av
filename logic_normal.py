@@ -274,7 +274,7 @@ class LogicNormal(object):
                         if flag_download:
                             if option_auto_download == '1':
                                 import downloader
-                                downloader_item_id = downloader.Logic.add_download2(item.magnet, ModelSetting.get('%s_torrent_program' % item.av_type), ModelSetting.get('%s_path' % item.av_type), request_type=package_name, request_sub_type='', server_id='%s_%s_%s' % (item.server_id, item.file_count, item.total_size) )['downloader_item_id']
+                                downloader_item_id = downloader.Logic.add_download2(item.magnet, ModelSetting.get('%s_torrent_program' % item.av_type), ModelSetting.get('%s_path' % item.av_type), request_type=package_name, request_sub_type='', server_id='av_%s_%s_%s' % (item.server_id, item.file_count, item.total_size) )['downloader_item_id']
                                 item.downloader_item_id = downloader_item_id
                                 item.download_status = 'true'
                             else:
