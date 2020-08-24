@@ -165,6 +165,11 @@ class ModelItem(db.Model):
     # 2 버전 추가
     server_id = db.Column(db.Integer)
 
+    folderid = db.Column(db.String)
+    folderid_time = db.Column(db.DateTime)
+    share_copy_time = db.Column(db.DateTime)
+    share_copy_complete_time = db.Column(db.DateTime)
+
     def __init__(self):
         self.created_time = datetime.now()
         self.download_status = ''
@@ -177,6 +182,9 @@ class ModelItem(db.Model):
         ret['created_time'] = self.created_time.strftime('%m-%d %H:%M:%S') 
         ret['download_check_time'] = self.download_check_time.strftime('%m-%d %H:%M:%S') if self.download_check_time is not None  else None
         ret['downloader_item'] = self.downloader_item.as_dict() if self.downloader_item is not None else None
+        ret['folderid_time'] = self.folderid_time.strftime('%m-%d %H:%M:%S') if self.folderid_time is not None  else None
+        ret['share_copy_time'] = self.share_copy_time.strftime('%m-%d %H:%M:%S') if self.share_copy_time is not None  else None
+        ret['share_copy_complete_time'] = self.share_copy_complete_time.strftime('%m-%d %H:%M:%S') if self.share_copy_complete_time is not None  else None
         return ret
     
     
@@ -190,18 +198,6 @@ class ModelItem(db.Model):
             if entity is not None:
                 logger.debug('magnet exist') 
                 return
-            """
-            try:
-                if not ModelSetting.get_bool('%s_allow_duplicate' % data['av_type']) and 'av' in data:
-                    entity = db.session.query(ModelItem).filter_by(code=data['av']['code_show']).first()
-                    if entity is not None:
-                        logger.debug('duplicate : %s', data['av']['code_show'])
-                        return
-            except:
-                logger.debug('***********')
-                logger.debug(data)
-                #return
-            """
 
             try:
                 allow_duplicate2 = ModelSetting.get('%s_allow_duplicate2' % data['av_type'])
@@ -408,3 +404,24 @@ class ModelItem(db.Model):
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())
 
+
+    @staticmethod
+    def receive_share_data(data):
+        try:
+            query = db.session.query(ModelItem).filter(ModelItem.server_id == int(data['server_id']))
+            query = query.filter(ModelItem.magnet.like('%'+ data['magnet_hash']))
+            entity = query.with_for_update().first()
+            
+            if entity is not None:
+                #logger.debug(entity)
+                entity.folderid = data['folderid']
+                entity.folderid_time = datetime.now()
+                db.session.commit()
+                from .logic_normal import LogicNormal
+                LogicNormal.process_gd(entity)
+                return True
+            return False
+        except Exception as e: 
+            logger.error('Exception:%s', e)
+            logger.error(traceback.format_exc())
+            return False

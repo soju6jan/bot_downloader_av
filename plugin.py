@@ -141,7 +141,9 @@ def ajax(sub):
         elif sub == 'remove':
             ret = ModelItem.remove(request.form['id'])
             return jsonify(ret)
-      
+        elif sub == 'share_copy':
+            ret = LogicNormal.share_copy(request)
+            return jsonify(ret)          
     except Exception as e: 
         logger.error('Exception:%s', e)
         logger.error(traceback.format_exc())  

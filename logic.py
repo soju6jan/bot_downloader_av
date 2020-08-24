@@ -21,7 +21,7 @@ from .logic_normal import LogicNormal
 
 class Logic(object):
     db_default = {
-        'db_version' : '2',         
+        'db_version' : '3',         
         'interval' : '30',
         'auto_start' : 'False',
         'web_page_size': '20',
@@ -94,6 +94,9 @@ class Logic(object):
         'fc2_option_min_size' : '0',
         'fc2_option_max_size' : '0',
 
+        # 구드공 연동
+        'remote_path' : '',
+        'share_receive_option' : '0',
     }
 
     @staticmethod
@@ -216,7 +219,22 @@ class Logic(object):
                 connection.close()
                 ModelSetting.set('db_version', '2')
                 db.session.flush()
-            
+            if ModelSetting.get('db_version') == '2':
+                import sqlite3
+                db_file = os.path.join(path_app_root, 'data', 'db', '%s.db' % package_name)
+                connection = sqlite3.connect(db_file)
+                cursor = connection.cursor()
+                query = 'ALTER TABLE %s_item ADD folderid VARCHAR' % (package_name)
+                cursor.execute(query)
+                query = 'ALTER TABLE %s_item ADD folderid_time DATETIME' % (package_name)
+                cursor.execute(query)
+                query = 'ALTER TABLE %s_item ADD share_copy_time DATETIME' % (package_name)
+                cursor.execute(query)
+                query = 'ALTER TABLE %s_item ADD share_copy_complete_time DATETIME' % (package_name)
+                cursor.execute(query)
+                connection.close()
+                ModelSetting.set('db_version', '3')
+                db.session.flush()
                
         except Exception as e:
             logger.error('Exception:%s', e)

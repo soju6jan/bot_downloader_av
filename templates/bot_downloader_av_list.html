@@ -122,6 +122,26 @@ $("body").on('click', '#add_download_btn', function(e) {
   });
 });
 
+$("body").on('click', '#share_copy_btn', function(e) {
+  e.preventDefault();
+  id = $(this).data('id');
+  $.ajax({
+    url: '/'+package_name+'/ajax/share_copy',
+    type: "POST", 
+    cache: false,
+    data: {id:id},
+    dataType: "json",
+    success: function (data) {
+      if (data.ret == 'success') {
+        //command_modal_show('');
+      } else {
+        $.notify('<strong>'+data.log+'</strong>', {
+          type: 'warning'
+        });
+      }
+    }
+  });
+});
 
 $("body").on('click', '#remove_btn', function(e) {
   e.preventDefault();
@@ -229,6 +249,9 @@ function make_list(data) {
     tmp2 += m_button('global_offcloud_cache_confirm_btn', 'Offcloud 캐쉬확인', [{'key':'hash', 'value':data[i].magnet}]);
     if (is_torrent_info_installed) 
       tmp2 += m_button('global_torrent_info_btn', 'TorrentInfo', [{'key':'hash', 'value':data[i].magnet}]);
+    if (data[i].folderid != null) {
+      tmp2 += m_button2('share_copy_btn', '구글 드라이브 공유 복사',  [{'key':'id', 'value':data[i].id}], 'danger');
+    }  
     tmp2 += m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
     tmp2 += m_button('remove_btn', '삭제', [{'key':'id', 'value':data[i].id}]);
     tmp2 = m_button_group(tmp2)
@@ -240,6 +263,12 @@ function make_list(data) {
     if (data[i].download_check_time != null) {
       tmp += '<br>' + data[i].download_check_time + ' (다운여부 판단)'
     } 
+    if (data[i].folderid_time != null) {
+      tmp += '<br>' + data[i].folderid_time + ' (구드공 수신)'
+    }
+    if (data[i].share_copy_time != null) {
+      tmp += '<br>' + data[i].share_copy_time + ' (구드공 요청)'
+    }
     if (data[i].downloader_item != null) {
       tmp += '<br>' + data[i].downloader_item.created_time + ' (다운로드 요청)'
       if (data[i].downloader_item.completed_time != '') {

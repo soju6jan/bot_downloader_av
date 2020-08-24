@@ -330,3 +330,56 @@ class LogicNormal(object):
             return False
         return None   
 
+    @staticmethod
+    def share_copy(req):
+        try:
+            import downloader
+            db_id = req.form['id']
+            item = db.session.query(ModelItem).filter_by(id=db_id).with_for_update().first()
+
+            try:
+                from gd_share_client.logic_user import LogicUser
+            except:
+                return {'ret':'fail', 'log':u'구글 드라이브 공유 플러그인이 설치되어 있지 않습니다.'}
+            my_remote_path = ModelSetting.get('remote_path')
+            if my_remote_path == '':
+                return {'ret':'fail', 'log':u'리모트 경로가 설정되어 있지 않습니다.'}
+            
+            # 백그라운드
+            ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path)
+            item.download_status = 'true_manual_gdrive_share'
+            item.share_copy_time = datetime.datetime.now()
+            db.session.commit()
+            return {'ret':'success'}
+        except Exception as e:
+            logger.error('Exception:%s', e)
+            logger.error(traceback.format_exc())
+
+
+    @staticmethod
+    def process_gd(item):
+        try:
+            share_receive_option = ModelSetting.get('share_receive_option')
+            if share_receive_option == '0':
+                pass
+            try:
+                from gd_share_client.logic_user import LogicUser
+            except:
+                logger.debug('not installed.. rclone expand')
+                return
+            my_remote_path = ModelSetting.get('remote_path')
+            if share_receive_option == '1':
+                ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path)
+                item.download_status = 'true_gdrive_share'
+                item.share_copy_time = datetime.datetime.now()
+                item.save()
+            elif share_receive_option == '2':
+                if item.download_status == 'true_only_status':
+                    ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path)
+                    item.download_status = 'true_gdrive_share'
+                    item.share_copy_time = datetime.datetime.now()
+                    item.save()
+            logger.debug('Folderid:%s', item.folderid)
+        except Exception as e:
+            logger.error('Exception:%s', e)
+            logger.error(traceback.format_exc())
