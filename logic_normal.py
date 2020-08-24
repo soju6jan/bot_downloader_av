@@ -268,7 +268,13 @@ class LogicNormal(object):
                                 logger.error('Exception:%s', e)
                                 logger.error(traceback.format_exc())
 
-                        item.log += u'6. 다운여부 : %s' % (flag_download)    
+                        if flag_download and item.av_type == 'censored':
+                            file_count = ModelSetting.get_int('censored_option_file_count')
+                            if file_count != 0 and item.file_count > file_count:
+                                flag_download = False
+                                item.log += u'6. 파일 수 - %s : %s\n' % (item.file_count, flag_download)
+
+                        item.log += u'7. 다운여부 : %s' % (flag_download)    
 
                         #다운로드
                         if flag_download:

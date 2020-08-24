@@ -48,6 +48,7 @@ class Logic(object):
         'censored_option_meta' : '0',
         'censored_option_min_size' : '0',
         'censored_option_max_size' : '0',
+        'censored_option_file_count' : '0',
 
         'uncensored_receive' : 'True',
         'uncensored_allow_duplicate' : 'True',
