@@ -187,7 +187,14 @@ class ModelItem(db.Model):
         ret['share_copy_complete_time'] = self.share_copy_complete_time.strftime('%m-%d %H:%M:%S') if self.share_copy_complete_time is not None  else None
         return ret
     
-    
+    def save(self):
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except Exception as e: 
+            logger.error('Exception:%s', e)
+            logger.error(traceback.format_exc())
+
     @staticmethod
     def process_telegram_data(data):
         try:
