@@ -266,36 +266,7 @@ class ModelItem(db.Model):
                 logger.error('Exception:%s', e)
                 logger.error(traceback.format_exc())   
 
-
-    @staticmethod
-    def get_plex_info(title, daum_id):
-        logger.debug('get_plex_info : %s %s', title, daum_id)
-        try:
-            ret = []
-            import plex
-            plex_videos = plex.Logic.library_search_movie(title, daum_id)
-
-            if plex_videos:
-                for v in plex_videos:
-                    entity = {}
-                    entity['key'] = v.key
-                    entity['exist_smi'] = False
-                    entity['exist_srt'] = False
-                    sub_list = v.subtitleStreams()
-                    for sub in sub_list:
-                        if sub.format == 'srt':
-                            entity['exist_srt'] = True
-                        elif sub.format == 'smi':
-                            entity['exist_smi'] = True
-                    entity['media'] = []
-                    for m in v.media:
-                        tmp = '%s / %s / %s / %s' % (m.videoResolution, m.videoCodec, m.audioCodec, m.videoFrameRate)
-                        entity['media'].append({'info':tmp, 'file':m.parts[0].file})
-                    ret.append(entity)
-            return ret
-        except Exception as e:
-            logger.error('Exception:%s', e)
-            logger.error(traceback.format_exc())
+    
     
 
     @staticmethod
