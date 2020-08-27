@@ -367,7 +367,10 @@ class LogicNormal(object):
             except:
                 logger.debug('not installed.. rclone expand')
                 return
-            my_remote_path = ModelSetting.get('remote_path')
+            my_remote_path = ModelSetting.get('%s_remote_path' % item.av_type)
+            if my_remote_path == '':
+                return
+
             if share_receive_option == '1':
                 ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path)
                 item.download_status = 'true_gdrive_share'

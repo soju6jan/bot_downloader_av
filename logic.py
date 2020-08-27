@@ -79,23 +79,11 @@ class Logic(object):
         'western_option_max_size' : '0',
         'western_option_foldername_filter' : '',
 
-
-        'fc2_receive' : 'True',
-        'fc2_allow_duplicate' : 'True',
-        'fc2_auto_download' : '0',
-        'fc2_torrent_program' : '',
-        'fc2_path' : '',
-        'fc2_option_mode' : '1',
-        'fc2_option_filter' : '',
-        'fc2_option_label' : '',
-        'fc2_option_genre' : '',
-        'fc2_option_performer' : '',
-        'fc2_allow_duplicate2' : '0',
-        'fc2_option_min_size' : '0',
-        'fc2_option_max_size' : '0',
-
         # 구드공 연동
-        'remote_path' : '',
+        #'remote_path' : '',
+        'censored_remote_path' : '',
+        'uncensored_remote_path' : '',
+        'western_remote_path' : '',
         'share_receive_option' : '0',
     }
 
