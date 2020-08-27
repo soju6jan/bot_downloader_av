@@ -51,7 +51,8 @@
           {{ macros.m_hr() }}
           {{ macros.setting_input_int('censored_option_min_size', '최소 크기', value=arg['censored_option_min_size'], desc=['이 값 보다 작으면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
           {{ macros.setting_input_int('censored_option_max_size', '최대 크기', value=arg['censored_option_max_size'], desc=['이 값 보다 크면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
-          {{ macros.setting_input_int('censored_option_file_count', '파일수', value=arg['censored_option_file_count'], desc=['파일 수가 이 값 이하인 경우만 받습니다.', '0이면 조건을 검사하지 않습니다.']) }}
+          {{ macros.setting_input_int('censored_option_file_count_min', '파일수 최소값', value=arg['censored_option_file_count_min'], desc=['파일 수가 이 값 이상인 경우만 받습니다.', '0이면 조건을 검사하지 않습니다.']) }}
+          {{ macros.setting_input_int('censored_option_file_count_max', '파일수 최대값', value=arg['censored_option_file_count_max'], desc=['파일 수가 이 값 이하인 경우만 받습니다.', '0이면 조건을 검사하지 않습니다.']) }}
         </div>
       {{ macros.m_tab_content_end() }}
 
