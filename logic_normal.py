@@ -269,10 +269,16 @@ class LogicNormal(object):
                                 logger.error(traceback.format_exc())
 
                         if flag_download and item.av_type == 'censored':
-                            file_count = ModelSetting.get_int('censored_option_file_count')
+                            file_count = ModelSetting.get_int('censored_option_file_count_min')
+                            if file_count != 0 and item.file_count < file_count:
+                                flag_download = False
+                                item.log += u'6. 파일 수 min - %s : %s\n' % (item.file_count, flag_download)
+                        if flag_download and item.av_type == 'censored':
+                            file_count = ModelSetting.get_int('censored_option_file_count_max')
                             if file_count != 0 and item.file_count > file_count:
                                 flag_download = False
-                                item.log += u'6. 파일 수 - %s : %s\n' % (item.file_count, flag_download)
+                                item.log += u'6. 파일 수 max - %s : %s\n' % (item.file_count, flag_download)
+
 
                         item.log += u'7. 다운여부 : %s' % (flag_download)    
 
