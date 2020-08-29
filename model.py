@@ -392,6 +392,8 @@ class ModelItem(db.Model):
             
             if entity is not None:
                 #logger.debug(entity)
+                if entity.folderid != '':
+                    return True
                 entity.folderid = data['folderid']
                 entity.folderid_time = datetime.now()
                 db.session.commit()
