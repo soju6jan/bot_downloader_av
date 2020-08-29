@@ -347,9 +347,9 @@ class LogicNormal(object):
                 from gd_share_client.logic_user import LogicUser
             except:
                 return {'ret':'fail', 'log':u'구글 드라이브 공유 플러그인이 설치되어 있지 않습니다.'}
-            my_remote_path = ModelSetting.get('remote_path')
+            my_remote_path = ModelSetting.get('%s_remote_path' % item.av_type)
             if my_remote_path == '':
-                return {'ret':'fail', 'log':u'리모트 경로가 설정되어 있지 않습니다.'}
+                return {'ret':'fail', 'log':u'리모트 경로가 설정되어 있지 않습니다.'} 
             
             # 백그라운드
             ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path)
