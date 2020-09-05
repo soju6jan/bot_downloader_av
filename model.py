@@ -2,7 +2,7 @@
 #########################################################
 # python
 import traceback
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import os
 
@@ -351,6 +351,16 @@ class ModelItem(db.Model):
         elif option == 'no':
             query = query.filter(ModelItem.download_status.like('no%'))
 
+        elif option == 'share_received':
+            query = query.filter(ModelItem.folderid != None)
+        elif option == 'share_no_received':
+            query = query.filter(ModelItem.folderid == None)
+        elif option == 'share_request_incompleted':
+            query = query.filter(ModelItem.share_copy_time != None).filter(ModelItem.share_copy_complete_time == None)
+        elif option == 'share_request_completed':
+            query = query.filter(ModelItem.share_copy_time != None).filter(ModelItem.share_copy_complete_time != None)
+
+
         if order == 'desc':
             query = query.order_by(desc(ModelItem.id))
         else:
@@ -407,4 +417,21 @@ class ModelItem(db.Model):
             return False
 
 
-    
+    @classmethod
+    def set_gdrive_share_completed(cls, id):
+        entity = cls.get_by_id(id)
+        if entity is not None:
+            entity.share_copy_complete_time = datetime.now()
+            entity.download_status = 'true_gdrive_share_completed'
+            entity.save()
+            logger.debug('true_gdrive_share_completed %s', id)
+
+    @classmethod
+    def get_share_incompleted_list(cls):
+        #수동인 True_manual_gdrive_share과 분리 \
+        #            .filter(cls.download_status == 'true_gdrive_share')  \
+        query = db.session.query(cls) \
+            .filter(cls.share_copy_time != None).filter() \
+            .filter(cls.share_copy_time > datetime.now() + timedelta(days=-1)) \
+            .filter(cls.share_copy_complete_time == None)
+        return query.all()           

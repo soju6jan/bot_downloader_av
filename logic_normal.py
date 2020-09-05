@@ -148,9 +148,13 @@ class LogicNormal(object):
 
 
          
-
     @staticmethod
     def scheduler_function():
+        LogicNormal.scheduler_function_torrent_check()
+        LogicNormal.scheduler_function_share_retry()
+
+    @staticmethod
+    def scheduler_function_torrent_check():
         try:
             last_id = ModelSetting.get_int('last_id')
             flag_first = False
@@ -336,6 +340,9 @@ class LogicNormal(object):
             return False
         return None   
 
+    #########################################################
+    # 구드공 관련
+    #########################################################
     @staticmethod
     def share_copy(req):
         try:
@@ -352,7 +359,7 @@ class LogicNormal(object):
                 return {'ret':'fail', 'log':u'리모트 경로가 설정되어 있지 않습니다.'} 
             
             # 백그라운드
-            ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path)
+            ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path, callback=ModelItem.set_gdrive_share_completed, callback_id=item.id, show_modal=True)
             item.download_status = 'true_manual_gdrive_share'
             item.share_copy_time = datetime.datetime.now()
             db.session.commit()
@@ -376,19 +383,24 @@ class LogicNormal(object):
             my_remote_path = ModelSetting.get('%s_remote_path' % item.av_type)
             if my_remote_path == '':
                 return
-
-            if share_receive_option == '1':
-                ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path)
+            if share_receive_option == '1' or (share_receive_option == '2' and item.download_status == 'true_only_status'):
+                ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path, callback=ModelItem.set_gdrive_share_completed, callback_id=item.id)
                 item.download_status = 'true_gdrive_share'
                 item.share_copy_time = datetime.datetime.now()
                 item.save()
-            elif share_receive_option == '2':
-                if item.download_status == 'true_only_status':
-                    ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path)
-                    item.download_status = 'true_gdrive_share'
-                    item.share_copy_time = datetime.datetime.now()
-                    item.save()
-            logger.debug('Folderid:%s', item.folderid)
         except Exception as e:
+            logger.error('Exception:%s', e)
+            logger.error(traceback.format_exc())
+    
+
+    @staticmethod
+    def scheduler_function_share_retry():
+        try:
+            item_list = ModelItem.get_share_incompleted_list()
+            logger.debug('scheduler_function_share_retry : %s', len(item_list))
+            for item in item_list:
+                LogicNormal.process_gd(item)
+                time.sleep(10)
+        except Exception as e: 
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())

@@ -25,6 +25,10 @@
             <option value="true_only_status">✔조건일치 - 상태만</option>
             <option value="false_only_status">⛔조건불일치 - 상태만</option>
             <option value="no">자동 다운로드 사용안함</option>
+            <option value="share_received">구드공 수신</option>
+            <option value="share_no_received">구드공 미수신</option>
+            <option value="share_request_incompleted">구드공 요청 - 미완료</option>
+            <option value="share_request_completed">구드공 요청 - 완료</option>            
           </select>
         </span>
         <span class="col-md-6">
@@ -133,7 +137,7 @@ $("body").on('click', '#share_copy_btn', function(e) {
     dataType: "json",
     success: function (data) {
       if (data.ret == 'success') {
-        //command_modal_show('');
+        $.notify('<strong>복사 요청을 했습니다.</strong>', {type: 'success'});
       } else {
         $.notify('<strong>'+data.log+'</strong>', {
           type: 'warning'
@@ -270,6 +274,9 @@ function make_list(data) {
     }
     if (data[i].share_copy_time != null) {
       tmp += '<br>' + data[i].share_copy_time + ' (구드공 요청)'
+    }
+    if (data[i].share_copy_complete_time != null) {
+      tmp += '<br>' + data[i].share_copy_complete_time + ' (구드공 완료)'
     }
     if (data[i].downloader_item != null) {
       tmp += '<br>' + data[i].downloader_item.created_time + ' (다운로드 요청)'
