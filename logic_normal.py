@@ -359,7 +359,8 @@ class LogicNormal(object):
                 return {'ret':'fail', 'log':u'리모트 경로가 설정되어 있지 않습니다.'} 
             
             # 백그라운드
-            ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path, callback=ModelItem.set_gdrive_share_completed, callback_id=item.id, show_modal=True)
+            #ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path, callback=ModelItem.set_gdrive_share_completed, callback_id=item.id, show_modal=True)
+            ret = LogicUser.copy_with_json(item.folderid, my_remote_path, show_modal=True)
             item.download_status = 'true_manual_gdrive_share'
             item.share_copy_time = datetime.datetime.now()
             db.session.commit()
@@ -384,7 +385,8 @@ class LogicNormal(object):
             if my_remote_path == '':
                 return
             if share_receive_option == '1' or (share_receive_option == '2' and item.download_status == 'true_only_status'):
-                ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path, callback=ModelItem.set_gdrive_share_completed, callback_id=item.id)
+                #ret = LogicUser.torrent_copy(item.folderid, '', '', my_remote_path=my_remote_path, callback=ModelItem.set_gdrive_share_completed, callback_id=item.id)
+                ret = LogicUser.copy_with_json(item.folderid, my_remote_path)
                 item.download_status = 'true_gdrive_share'
                 item.share_copy_time = datetime.datetime.now()
                 item.save()
