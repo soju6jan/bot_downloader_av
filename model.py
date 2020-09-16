@@ -404,7 +404,7 @@ class ModelItem(db.Model):
                 #logger.debug(entity)
                 if entity.folderid is not None:
                     return True
-                entity.folderid = data['info_json_id']
+                entity.folderid = data['folderid']
                 entity.folderid_time = datetime.now()
                 db.session.commit()
                 from .logic_normal import LogicNormal
