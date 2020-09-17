@@ -139,7 +139,7 @@ $("body").on('click', '#share_copy_btn', function(e) {
       if (data.ret == 'success') {
         $.notify('<strong>복사 요청을 했습니다.</strong>', {type: 'success'});
       } else {
-        $.notify('<strong>'+data.log+'</strong>', {
+        $.notify('<strong>'+data.ret+'</strong>', {
           type: 'warning'
         });
       }
