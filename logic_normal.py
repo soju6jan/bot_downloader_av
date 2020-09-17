@@ -345,6 +345,7 @@ class LogicNormal(object):
     #########################################################
     @staticmethod
     def add_copy(item, my_remote_path):
+        return {'ret':'fail'}
         try:
             from gd_share_client.logic_user import LogicUser
         except:
