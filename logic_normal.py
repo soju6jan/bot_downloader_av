@@ -350,7 +350,7 @@ class LogicNormal(object):
             from gd_share_client.logic_user import LogicUser
         except:
             return {'ret':'no_plugin'}
-        ret = LogicUser.instance.add_copy(item.folderid, item.filename, package_name, '', item.total_size, item.file_count, remote_path=my_remote_path)
+        ret = LogicUser.instance.add_copy(item.folderid, item.filename, package_name, item.server_id, item.total_size, item.file_count, remote_path=my_remote_path)
         return ret
 
     @staticmethod
