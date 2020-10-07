@@ -32,7 +32,7 @@
           </select>
         </span>
         <span class="col-md-6">
-          <input id="search_word" name="search_word" class="form-control form-control-sm w-75" type="text" placeholder="품번 or 파일명" aria-label="Search">
+          <input id="search_word" name="search_word" class="form-control form-control-sm w-75" type="text" placeholder="품번 or 파일명 or 배우명" aria-label="Search">
           <button id="search" class="btn btn-sm btn-outline-success">검색</button>
           <button id="reset_btn" class="btn btn-sm btn-outline-success">리셋</button>
           
@@ -199,7 +199,7 @@ function make_list(data) {
     if (data[i].download_status == null) data[i].download_status = '';
     str += m_row_start();
     if ( data[i].poster != null && show_poster)
-      tmp = '<img src="' + data[i].poster + '" class="img-fluid">'
+      tmp = '<img src="' + data[i].poster + '" class="img-fluid rounded">'
     else 
       tmp = ''
     str += m_col(2, tmp);

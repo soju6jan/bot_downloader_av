@@ -333,7 +333,7 @@ class ModelItem(db.Model):
                     if tt != '':
                         query = query.filter(ModelItem.code.like('%'+tt.strip()+'%'))
             else:
-                query = query.filter(or_(ModelItem.code.like('%'+search+'%'), ModelItem.filename.like('%'+search+'%')))
+                query = query.filter(or_(ModelItem.code.like('%'+search+'%'), ModelItem.filename.like('%'+search+'%'), ModelItem.performer.like('%'+search+'%')))
 
         if av_type is not None and av_type != '' and av_type != 'all':
             query = query.filter(ModelItem.av_type == av_type)
