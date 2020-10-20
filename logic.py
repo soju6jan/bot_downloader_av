@@ -109,7 +109,7 @@ class Logic(object):
             if ModelSetting.query.filter_by(key='auto_start').first().value == 'True':
                 Logic.scheduler_start()
             # 편의를 위해 json 파일 생성
-            from plugin import plugin_info
+            from .plugin import plugin_info
             Util.save_from_dict_to_json(plugin_info, os.path.join(os.path.dirname(__file__), 'info.json'))
         except Exception as e: 
             logger.error('Exception:%s', e)

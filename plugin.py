@@ -34,9 +34,9 @@ from .logic_normal import LogicNormal
 blueprint = Blueprint(package_name, package_name, url_prefix='/%s' %  package_name, template_folder=os.path.join(os.path.dirname(__file__), 'templates'))
 
 menu = {
-    'main' : [package_name, '봇 다운로드 - AV'],
+    'main' : [package_name, u'봇 다운로드 - AV'],
     'sub' : [
-        ['setting', '설정'], ['list', '목록'], ['log', '로그']
+        ['setting', u'설정'], ['list', u'목록'], ['log', u'로그']
     ],
     'category' : 'torrent'
 }
@@ -46,7 +46,7 @@ plugin_info = {
     'name' : 'bot_downloader_av',
     'category_name' : 'torrent',
     'developer' : 'soju6jan',
-    'description' : '텔레그램 봇으로 수신한 정보로 AV 다운로드',
+    'description' : u'텔레그램 봇으로 수신한 정보로 AV 다운로드',
     'home' : 'https://github.com/soju6jan/bot_downloader_av',
     'more' : '',
 }

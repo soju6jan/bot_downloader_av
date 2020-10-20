@@ -54,7 +54,7 @@ class LogicNormal(object):
                     Notify.send_message(msg, image_url=poster, message_id='bot_downloader_av_receive')
                 LogicNormal.invoke()
                 TorrentProcess.receive_new_data(ret, package_name)
-        except Exception, e:
+        except Exception as e:
                 logger.error('Exception:%s', e)
                 logger.error(traceback.format_exc())
 
@@ -121,7 +121,7 @@ class LogicNormal(object):
                 return True
             else:
                 return False
-        except Exception, e:
+        except Exception as e:
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())
 
