@@ -9,7 +9,6 @@ import re, time
 # third-party
 from sqlalchemy import desc
 from sqlalchemy import or_, and_, func, not_
-from guessit import guessit
 
 # sjva 공용
 from framework import app, db, scheduler, path_app_root
