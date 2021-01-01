@@ -11,12 +11,12 @@ from sqlalchemy import desc
 from sqlalchemy import or_, and_, func, not_
 
 # sjva 공용
-from framework import app, db, scheduler, path_app_root
+from framework import app, db, scheduler, path_app_root, SystemModelSetting
 from framework.job import Job
 from framework.util import Util
 from system.logic import SystemLogic
 from framework.common.torrent.process import TorrentProcess
-from system.model import ModelSetting as SystemModelSetting
+from tool_base import ToolBaseNotify
 
 # 패키지
 from .plugin import logger, package_name
@@ -49,8 +49,7 @@ class LogicNormal(object):
                     #msg += '\n➕ 다운로드 추가\n<%s>\n' % url
                     
                     poster = ret.poster if ModelSetting.get_bool('show_poster_notify') else None
-                    import framework.common.notify as Notify
-                    Notify.send_message(msg, image_url=poster, message_id='bot_downloader_av_receive')
+                    ToolBaseNotify.send_message(msg, image_url=poster, message_id='bot_downloader_av_receive')
                 LogicNormal.invoke()
                 TorrentProcess.receive_new_data(ret, package_name)
         except Exception as e:
@@ -81,8 +80,7 @@ class LogicNormal(object):
             msg += '결과 : %s\n' % status_str
             msg += '%s/%s/list\n' % (SystemModelSetting.get('ddns'), package_name)
             msg += '로그\n' + item.log
-            import framework.common.notify as Notify
-            Notify.send_message(msg, message_id='bot_downloader_av_result')
+            ToolBaseNotify.send_message(msg, message_id='bot_downloader_av_result')
         except Exception as e: 
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())
