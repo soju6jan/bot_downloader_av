@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
- 
+<style> 
+video { 
+   width:100%;
+   max-width:800px;
+   height:auto;
+}
+</style>
 <div>
   <form id="form_search" class="form-inline" style="text-align:left">
     <div class="container-fluid">
@@ -51,6 +57,25 @@
   <div id='page2'></div>
 </div>
 
+<!-- 예고편 Player Modal: START -->
+<div class="modal fade" id="trailer_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-title">예고편 재생: </h4>
+      </div>
+      <div class="modal-body" id="modal_body" style="word-break:break-all;">
+		<span id="trailer_player"></span>
+       </div>
+      <!--</div>-->
+      <div class="modal-footer">
+        <button type="button" id='trailer_close_btn' class="btn btn-default" data-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 예고편 Player Modal: END -->
+
 <script type="text/javascript">
 var package_name = "{{arg['package_name'] }}";
 var current_data = null;
@@ -92,6 +117,41 @@ $("body").on('click', '#json_btn', function(e){
       m_modal(current_data.list[i])
     }
   }
+});
+
+$("body").on('click', '#trailer_view_btn', function(e){
+  e.preventDefault();
+  var code = $(this).data('code');
+  
+  $.ajax({
+    url: '/'+package_name+'/ajax/get_extra_content_url',
+    cache: false,
+    type: "POST",
+    data: {ctype:'trailer', code:code},
+    success: function (data) {
+        if (data.ret = 'success') {
+          $("#trailer_modal").modal();
+          document.getElementById("modal-title").innerHTML = '예고편 재생: ' +code;
+          str = '<video oncontextmenu="return false;" id="trailer" width="800" controls autoplay preload="metadata">';
+          str += '<source src="' + data.data + '" type="video/mp4"></video>';
+          document.getElementById("trailer_player").innerHTML = str;
+        } else {
+          $.notify('<strong>'+data.data+'</strong>', { type: 'warning' });
+        }
+    },
+    error: function (error) {
+        $.notify('<strong>예고편 재생 실패. 로그를 확인하세요.</strong>', { type: 'warning' });
+    }
+  });
+});
+
+$("#trailer_modal").on('hidden.bs.modal', function () {
+  document.getElementById("trailer").pause();
+});
+
+$("#trailer_modal").on('click', '#trailer_close_btn', function(e){
+  document.getElementById("trailer").pause();
+  e.preventDefault();
 });
 
 $("body").on('click', '#self_search_btn', function(e){
@@ -260,6 +320,7 @@ function make_list(data) {
     }  
     tmp2 += m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
     tmp2 += m_button('remove_btn', '삭제', [{'key':'id', 'value':data[i].id}]);
+    tmp2 += m_button2('trailer_view_btn', '예고편보기', [{'key':'code', 'value':data[i].code}], 'info');
     tmp2 = m_button_group(tmp2)
     tmp += tmp2 + '<br>'
 
