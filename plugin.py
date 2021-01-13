@@ -143,8 +143,15 @@ def ajax(sub):
             return jsonify(ret)
         elif sub == 'share_copy':
             ret = LogicNormal.share_copy(request)
-            return jsonify(ret)          
-    except Exception as e: 
+            return jsonify(ret)
+
+        # 예고편 URL 가져오기
+        elif sub == 'get_extra_content_url':
+            ctype = request.form['ctype']
+            code = request.form['code']
+            ret = LogicNormal.get_extra_content_url(ctype, code)
+            return jsonify(ret)
+    except Exception as e:
         logger.error('Exception:%s', e)
         logger.error(traceback.format_exc())  
         return jsonify('fail')   
