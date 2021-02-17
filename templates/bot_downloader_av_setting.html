@@ -28,9 +28,9 @@
         {{ macros.setting_checkbox('result_send_notify', '처리 결과 알림', value=arg['result_send_notify'], desc=['ID : bot_downloader_av_result']) }}
         {{ macros.setting_checkbox('show_log', '목록에 조건처리 로그 표시', value=arg['show_log']) }}
         {{ macros.m_hr() }}
-        {{ macros.setting_input_text('censored_remote_path', '공유 기능 사용시 리모트 경로(censored)', value=arg['censored_remote_path'], desc=['구글 드라이브 공유 플러그인이 설치되어 있어야 합니다.']) }}
-        {{ macros.setting_input_text('uncensored_remote_path', '공유 기능 사용시 리모트 경로(uncensored)', value=arg['uncensored_remote_path'], desc=['구글 드라이브 공유 플러그인이 설치되어 있어야 합니다.']) }}
-        {{ macros.setting_input_text('western_remote_path', '공유 기능 사용시 리모트 경로(western)', value=arg['western_remote_path'], desc=['구글 드라이브 공유 플러그인이 설치되어 있어야 합니다.']) }}
+        {{ macros.setting_input_text_and_buttons('censored_remote_path', '공유 기능 사용시 리모트 경로(censored)', [['censored_relay_test_btn', '릴레이 공유 테스트']], value=arg['censored_remote_path'], desc=['구글 드라이브 공유 플러그인이 설치되어 있어야 합니다.', '링크가 있는 모든 사용자에게 공개-편집자로 설정되어 있어야 합니다.']) }}
+        {{ macros.setting_input_text_and_buttons('uncensored_remote_path', '공유 기능 사용시 리모트 경로(uncensored)', [['uncensored_relay_test_btn', '릴레이 공유 테스트']], value=arg['uncensored_remote_path'], desc=['구글 드라이브 공유 플러그인이 설치되어 있어야 합니다.', '링크가 있는 모든 사용자에게 공개-편집자로 설정되어 있어야 합니다.']) }}
+        {{ macros.setting_input_text_and_buttons('western_remote_path', '공유 기능 사용시 리모트 경로(western)', [['western_relay_test_btn', '릴레이 공유 테스트']], value=arg['western_remote_path'], desc=['구글 드라이브 공유 플러그인이 설치되어 있어야 합니다.', '링크가 있는 모든 사용자에게 공개-편집자로 설정되어 있어야 합니다.']) }}
         {{ macros.setting_radio('share_receive_option', '구드공 데이터 활용', ['Nothing', '다운로드 조건에 상관없이 모두 다운로드', '다운로드 조건만 체크 옵션일 경우 조건에 일치하면 즉시 다운로드'], value=arg['share_receive_option']) }}
       {{ macros.m_tab_content_end() }}
 
@@ -166,6 +166,21 @@ $("body").on('click', '#reset_last_index_btn', function(e){
       }
     }
   });
+});
+
+$("body").on('click', '#censored_relay_test_btn', function(e) {
+  e.preventDefault();
+  global_relay_test(document.getElementById('censored_remote_path').value);
+});
+
+$("body").on('click', '#uncensored_relay_test_btn', function(e) {
+  e.preventDefault();
+  global_relay_test(document.getElementById('uncensored_remote_path').value);
+});
+
+$("body").on('click', '#western_relay_test_btn', function(e) {
+  e.preventDefault();
+  global_relay_test(document.getElementById('western_remote_path').value);
 });
 
 </script>    
