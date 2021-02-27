@@ -107,6 +107,7 @@
 
 <script type="text/javascript">
 var package_name = "{{arg['package_name'] }}";
+var sub = "{{arg['sub']}}";
 var current_data = null;
 
 $(document).ready(function(){
@@ -149,7 +150,7 @@ $('input[type=radio][name=western_auto_download]').change(function() {
 $("body").on('click', '#reset_last_index_btn', function(e){
   e.preventDefault();
   $.ajax({
-    url: '/' + package_name + '/ajax/reset_last_index',
+    url: '/' + package_name + '/ajax/' + sub + '/reset_last_index',
     type: "POST", 
     cache: false,
     data: {},
@@ -166,21 +167,6 @@ $("body").on('click', '#reset_last_index_btn', function(e){
       }
     }
   });
-});
-
-$("body").on('click', '#censored_relay_test_btn', function(e) {
-  e.preventDefault();
-  global_relay_test(document.getElementById('censored_remote_path').value);
-});
-
-$("body").on('click', '#uncensored_relay_test_btn', function(e) {
-  e.preventDefault();
-  global_relay_test(document.getElementById('uncensored_remote_path').value);
-});
-
-$("body").on('click', '#western_relay_test_btn', function(e) {
-  e.preventDefault();
-  global_relay_test(document.getElementById('western_remote_path').value);
 });
 
 </script>    

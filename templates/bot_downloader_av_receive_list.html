@@ -78,6 +78,7 @@ video {
 
 <script type="text/javascript">
 var package_name = "{{arg['package_name'] }}";
+var sub = "{{arg['sub']}}";
 var current_data = null;
 var is_torrent_info_installed = ("{{arg['is_torrent_info_installed']}}" == 'True')
 var is_available_normal_download = ("{{arg['is_available_normal_download']}}" == 'True')
@@ -124,7 +125,7 @@ $("body").on('click', '#trailer_view_btn', function(e){
   var code = $(this).data('code');
   
   $.ajax({
-    url: '/'+package_name+'/ajax/get_extra_content_url',
+    url: '/'+package_name+'/ajax/' + sub + '/get_extra_content_url',
     cache: false,
     type: "POST",
     data: {ctype:'trailer', code:code},
@@ -166,7 +167,7 @@ $("body").on('click', '#add_download_btn', function(e) {
   e.preventDefault();
   id = $(this).data('id');
   $.ajax({
-    url: '/'+package_name+'/ajax/add_download',
+    url: '/'+package_name+'/ajax/' + sub + '/add_download',
     type: "POST", 
     cache: false,
     data: {id:id},
@@ -190,7 +191,7 @@ $("body").on('click', '#share_copy_btn', function(e) {
   e.preventDefault();
   id = $(this).data('id');
   $.ajax({
-    url: '/'+package_name+'/ajax/share_copy',
+    url: '/'+package_name+'/ajax/' + sub + '/share_copy',
     type: "POST", 
     cache: false,
     data: {id:id},
@@ -211,7 +212,7 @@ $("body").on('click', '#remove_btn', function(e) {
   e.preventDefault();
   id = $(this).data('id');
   $.ajax({
-    url: '/'+package_name+'/ajax/remove',
+    url: '/'+package_name+'/ajax/' + sub + '/remove',
     type: "POST", 
     cache: false,
     data: {id:id},
@@ -236,7 +237,7 @@ function request_search(page, move_top=true) {
   var formData = get_formdata('#form_search')
   formData += '&page=' + page;
   $.ajax({
-    url: '/' + package_name + '/ajax/web_list',
+    url: '/' + package_name + '/ajax/' + sub + '/web_list',
     type: "POST", 
     cache: false,
     data: formData,
