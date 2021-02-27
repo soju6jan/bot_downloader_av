@@ -313,8 +313,8 @@ class ModelItem(db.Model):
                 entity.folderid = data['folderid']
                 entity.folderid_time = datetime.now()
                 db.session.commit()
-                from .logic_normal import LogicNormal
-                LogicNormal.process_gd(entity)
+                module = P.logic.get_module('receive')
+                module.process_gd(entity)
                 return True
             return False
         except Exception as e: 
