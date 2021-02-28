@@ -94,8 +94,8 @@
       {{ macros.m_tab_content_end() }}
       
       {{ macros.m_tab_content_start('action', false) }}
-        {{ macros.setting_button([['global_one_execute_btn', '1회 실행']], left='1회 실행' ) }}
-        {{ macros.setting_button([['global_reset_db_btn', '목록 전체 지우기']], left='DB정리' ) }}
+        {{ macros.setting_button([['global_one_execute_sub_btn', '1회 실행']], left='1회 실행' ) }}
+        {{ macros.setting_button([['global_reset_db_sub_btn', '목록 전체 지우기']], left='DB정리' ) }}
         {{ macros.info_text_and_buttons('last_id', '마지막 ID', [['reset_last_index_btn', 'ID 초기화']], value='마지막 ID : ' + arg['last_id'], desc=['DB에 저장된 Index를 지웁니다', '최초 시작처럼 7일 이내 데이터를 모두 처리합니다.']) }}
         {{ macros.m_hr() }}
         {{ macros.info_text_go('rss_api', 'RSS API', value=arg['rss_api'], desc=['파라미터', ' - type : 타입. censored, uncensored, western', ' - search : 품번 키워드. 연산자 지원', '- count : 피드 수. 기본값 100', '- option : 생략가능.', '> wait : 판단이전', '> true : 조건일치 - 요청', '> false : 조건불일치 - 패스', '> true_only_status : 조건일치 - 상태만', '> false_only_status : 조건불일치 - 상태만', '> no : 자동다운로드 사용 안함', '- server_id_mod : 나눌 숫자_나머지. 서버 ID 기준', '', '연산자', '- AND 연산자 : 구분자 ,', '- OR연산자 : 구분자 |', '']) }}
