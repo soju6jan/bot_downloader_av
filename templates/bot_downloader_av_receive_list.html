@@ -154,7 +154,7 @@ $("body").on('click', '#trailer_view_btn', function(e){
   var url = $(this).data('url');
   
   document.getElementById("modal-title").innerHTML = '예고편 재생: ' + code;
-  str = '<video oncontextmenu="return false;" id="trailer" width="800" controls autoplay preload="metadata">';
+  str = '<video oncontextmenu="return false;" id="trailer" width="800" controls autoplay muted preload="metadata">';
   str += '<source src="' + url + '" type="video/mp4"></video>';
   document.getElementById("trailer_player").innerHTML = str;
   $("#trailer_modal").modal();
