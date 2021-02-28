@@ -139,11 +139,11 @@ class LogicReceiveAV(LogicModuleBase):
         elif sub == 'share_copy':
             ret = self.share_copy(request)
             return jsonify(ret)
-        elif sub == 'get_extra_content_url':
-            ctype = request.form['ctype']
-            code = request.form['code']
-            ret = self.get_extra_content_url(ctype, code)
-            return jsonify(ret)
+        #elif sub == 'get_extra_content_url':
+        #    ctype = request.form['ctype']
+        #    code = request.form['code']
+        #    ret = self.get_extra_content_url(ctype, code)
+        #    return jsonify(ret)
 
 
     def process_api(self, sub, req):
@@ -618,6 +618,7 @@ class LogicReceiveAV(LogicModuleBase):
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())
 
+    """
     def get_extra_content_url(self, ctype, code):
         try:
             from metadata import Logic as MetadataLogic
@@ -645,3 +646,5 @@ class LogicReceiveAV(LogicModuleBase):
             logger.debug('Exception:%s', e)
             logger.debug(traceback.format_exc())
             return {'ret': 'error', 'data':'Exception! failed to find extra content url(%s)' % code}
+    """
+    

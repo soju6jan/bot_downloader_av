@@ -120,6 +120,7 @@ $("body").on('click', '#json_btn', function(e){
   }
 });
 
+/*
 $("body").on('click', '#trailer_view_btn', function(e){
   e.preventDefault();
   var code = $(this).data('code');
@@ -144,6 +145,19 @@ $("body").on('click', '#trailer_view_btn', function(e){
         $.notify('<strong>예고편 재생 실패. 로그를 확인하세요.</strong>', { type: 'warning' });
     }
   });
+});
+*/
+
+$("body").on('click', '#trailer_view_btn', function(e){
+  e.preventDefault();
+  var code = $(this).data('code');
+  var url = $(this).data('url');
+  
+  document.getElementById("modal-title").innerHTML = '예고편 재생: ' + code;
+  str = '<video oncontextmenu="return false;" id="trailer" width="800" controls autoplay preload="metadata">';
+  str += '<source src="' + url + '" type="video/mp4"></video>';
+  document.getElementById("trailer_player").innerHTML = str;
+  $("#trailer_modal").modal();
 });
 
 $("#trailer_modal").on('hidden.bs.modal', function () {
@@ -321,7 +335,8 @@ function make_list(data) {
     }  
     tmp2 += m_button('json_btn', 'JSON', [{'key':'id', 'value':data[i].id}]);
     tmp2 += m_button('remove_btn', '삭제', [{'key':'id', 'value':data[i].id}]);
-    tmp2 += m_button2('trailer_view_btn', '예고편보기', [{'key':'code', 'value':data[i].code}], 'info');
+    if (data[i].data.av.trailer != null && data[i].data.av.trailer != '')
+      tmp2 += m_button2('trailer_view_btn', '예고편보기', [{'key':'code', 'value':data[i].code}, {'key':'url', 'value':data[i].data.av.trailer}], 'info');
     tmp2 = m_button_group(tmp2)
     tmp += tmp2 + '<br>'
 

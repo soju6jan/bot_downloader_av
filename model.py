@@ -76,6 +76,7 @@ class ModelItem(db.Model):
     share_copy_time = db.Column(db.DateTime)
     share_copy_complete_time = db.Column(db.DateTime)
 
+    
     def __init__(self):
         self.created_time = datetime.now()
         self.download_status = ''
