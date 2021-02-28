@@ -603,11 +603,11 @@ class LogicReceiveAV(LogicModuleBase):
             if telegram_invoke_action == '0':
                 return False
             elif telegram_invoke_action == '1':
-                if scheduler.is_include(package_name):
-                    if scheduler.is_running(package_name):
+                if scheduler.is_include(self.get_scheduler_name()):
+                    if scheduler.is_running(self.get_scheduler_name()):
                         return False
                     else:
-                        scheduler.execute_job(package_name)
+                        scheduler.execute_job(self.get_scheduler_name())
                         return True
             elif telegram_invoke_action == '2':
                 P.logic.one_execute(self.name)
