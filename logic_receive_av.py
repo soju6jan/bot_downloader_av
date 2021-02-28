@@ -291,10 +291,10 @@ class LogicReceiveAV(LogicModuleBase):
                         flag_download = True
 
                         if flag_download and item.av_type == 'censored':
-                            if ModelSetting.get('censored_option_meta') == '1' and item.meta_type == 'javdb':
+                            if ModelSetting.get('censored_option_meta') == '1' and item.meta_type == 'ama':
                                 flag_download = False
                                 item.log += u'0. censored mode : False\n'
-                            if ModelSetting.get('censored_option_meta') == '2' and item.meta_type == 'dmm':
+                            if ModelSetting.get('censored_option_meta') == '2' and item.meta_type == 'dvd':
                                 flag_download = False
                                 item.log += u'0. censored mode : False\n'
                         
