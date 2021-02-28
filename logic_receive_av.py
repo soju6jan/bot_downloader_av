@@ -432,7 +432,7 @@ class LogicReceiveAV(LogicModuleBase):
     def check_option(self, option, value):
         if value is None:
             return None
-        condition_list = ModelSetting.get_list(option)
+        condition_list = ModelSetting.get_list(option, '|')
         if condition_list:
             for condition in condition_list:
                 if value.replace(' ', '').lower().find(condition.lower()) != -1:
