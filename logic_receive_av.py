@@ -52,6 +52,7 @@ class LogicReceiveAV(LogicModuleBase):
         'censored_option_max_size' : '0',
         'censored_option_file_count_min' : '0',
         'censored_option_file_count_max' : '0',
+        'censored_option_server_id_mod' : '',
 
         'uncensored_receive' : 'True',
         'uncensored_allow_duplicate' : 'True',
@@ -66,6 +67,7 @@ class LogicReceiveAV(LogicModuleBase):
         'uncensored_allow_duplicate2' : '0',
         'uncensored_option_min_size' : '0',
         'uncensored_option_max_size' : '0',
+        'uncensored_option_server_id_mod' : '',
 
         'western_receive' : 'True',
         'western_allow_duplicate' : 'True',
@@ -81,6 +83,7 @@ class LogicReceiveAV(LogicModuleBase):
         'western_option_min_size' : '0',
         'western_option_max_size' : '0',
         'western_option_foldername_filter' : '',
+        'western_option_server_id_mod' : '',
 
         # 구드공 연동
         #'remote_path' : '',
@@ -331,6 +334,7 @@ class LogicReceiveAV(LogicModuleBase):
                                     if ret is not None:
                                         flag_download = not ret
                                         item.log += u'4. 배우 - %s : %s\n' % (item.performer, flag_download)
+                                
                             else:
                                 flag_download = False
                                 item.log += u'%s\n' % flag_download
@@ -387,8 +391,10 @@ class LogicReceiveAV(LogicModuleBase):
                                 flag_download = False
                                 item.log += u'6. 파일 수 max - %s : %s\n' % (item.file_count, flag_download)
 
-
-                        item.log += u'7. 다운여부 : %s' % (flag_download)    
+                        if flag_download:
+                            flag_download = self.check_option_server_id_mod(item)
+                            
+                        item.log += u'8. 다운여부 : %s' % (flag_download)    
 
                         #다운로드
                         if flag_download:
@@ -443,6 +449,24 @@ class LogicReceiveAV(LogicModuleBase):
             return False
         return None   
     
+    def check_option_server_id_mod(self, item):
+        try:
+            server_id_mod = ModelSetting.get('%s_server_id_mod' % item.av_type)
+            if server_id_mod == '':
+                return True
+            else:
+                tmp = server_id_mod.split('_')
+                if item.server_id % int(tmp[0]) == int(tmp[1]):
+                    item.log += u'7. server_id_mod 조건 일치. 다운:On. server_id:%s 조건:%s\n' % (item.server_id, server_id_mod)
+                    return True
+                else:
+                    item.log += u'7. server_id_mod 조건 불일치. 다운:Off. server_id:%s 조건:%s\n' % (item.server_id, server_id_mod)
+                    return False
+        except Exception as e: 
+            logger.error('Exception:%s', e)
+            logger.error(traceback.format_exc())
+        return True
+
 
     def send_telegram_message(self, item):
         try:
@@ -511,24 +535,7 @@ class LogicReceiveAV(LogicModuleBase):
         return ret
     
 
-    def condition_check_server_id_mod(self, item):
-        try:
-            server_id_mod = ModelSetting.get('condition_server_id_mod')
-            if server_id_mod == '':
-                return True
-            else:
-                tmp = server_id_mod.split('_')
-                if item.server_id % int(tmp[0]) == int(tmp[1]):
-                    item.log += u'\nserver_id_mod 조건 일치. 다운:on. server_id:%s 조건:%s' % (item.server_id, server_id_mod)
-                    return True
-                else:
-                    item.download_status = 'False_server_id_mod'  
-                    item.log += u'\nserver_id_mod 조건 불일치. 다운:Off. server_id:%s 조건:%s' % (item.server_id, server_id_mod)
-                    return False
-        except Exception as e: 
-            logger.error('Exception:%s', e)
-            logger.error(traceback.format_exc())
-        return True
+    
 
 
     #########################################################
