@@ -452,7 +452,7 @@ class LogicReceiveAV(LogicModuleBase):
     def check_option_server_id_mod(self, item):
         try:
             #server_id_mod = ModelSetting.get('%s_server_id_mod' % item.av_type)
-            server_id_mod_list = ModelSetting.get_list('%s_server_id_mod' % item.av_type, '|')
+            server_id_mod_list = ModelSetting.get_list('%s_option_server_id_mod' % item.av_type, '|')
             if len(server_id_mod) == 0:
                 return True
             else:
