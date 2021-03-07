@@ -451,17 +451,19 @@ class LogicReceiveAV(LogicModuleBase):
     
     def check_option_server_id_mod(self, item):
         try:
-            server_id_mod = ModelSetting.get('%s_server_id_mod' % item.av_type)
-            if server_id_mod == '':
+            #server_id_mod = ModelSetting.get('%s_server_id_mod' % item.av_type)
+            server_id_mod_list = ModelSetting.get_list('%s_server_id_mod' % item.av_type, '|')
+            if len(server_id_mod) == 0:
                 return True
             else:
-                tmp = server_id_mod.split('_')
-                if item.server_id % int(tmp[0]) == int(tmp[1]):
-                    item.log += u'7. server_id_mod 조건 일치. 다운:On. server_id:%s 조건:%s\n' % (item.server_id, server_id_mod)
-                    return True
-                else:
-                    item.log += u'7. server_id_mod 조건 불일치. 다운:Off. server_id:%s 조건:%s\n' % (item.server_id, server_id_mod)
-                    return False
+                for servier_id_mod in server_id_mod_list:
+                    tmp = server_id_mod.split('_')
+                    if item.server_id % int(tmp[0]) == int(tmp[1]):
+                        item.log += u'7. server_id_mod 조건 일치. 다운:On. server_id:%s 조건:%s\n' % (item.server_id, server_id_mod)
+                        return True
+                    
+                item.log += u'7. server_id_mod 조건 불일치. 다운:Off. server_id:%s 조건:%s\n' % (item.server_id, server_id_mod)
+                return False
         except Exception as e: 
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())
