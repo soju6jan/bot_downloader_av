@@ -53,7 +53,7 @@
           {{ macros.setting_input_int('censored_option_max_size', '최대 크기', value=arg['censored_option_max_size'], desc=['이 값 보다 크면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
           {{ macros.setting_input_int('censored_option_file_count_min', '파일수 최소값', value=arg['censored_option_file_count_min'], desc=['파일 수가 이 값 이상인 경우만 받습니다.', '0이면 조건을 검사하지 않습니다.']) }}
           {{ macros.setting_input_int('censored_option_file_count_max', '파일수 최대값', value=arg['censored_option_file_count_max'], desc=['파일 수가 이 값 이하인 경우만 받습니다.', '0이면 조건을 검사하지 않습니다.']) }}
-          {{ macros.setting_input_text('censored_option_server_id_mod', 'server_id_mod', col=3, value=arg['option_server_id_mod'], desc=['형식: 나눌 숫자_몫. 예) 3_1 : 3으로 나누어서 몫이 1인 것만 받을 경우', '여러 기기에서 분할하여 받을 경우 사용하며 값이 비어있으면 검사하지 않습니다.', '중복 조건시 구분시 |']) }}
+          {{ macros.setting_input_text('censored_option_server_id_mod', 'server_id_mod', col=3, value=arg['censored_option_server_id_mod'], desc=['형식: 나눌 숫자_몫. 예) 3_1 : 3으로 나누어서 몫이 1인 것만 받을 경우', '여러 기기에서 분할하여 받을 경우 사용하며 값이 비어있으면 검사하지 않습니다.', '중복 조건시 구분시 |']) }}
         </div>
       {{ macros.m_tab_content_end() }}
 
@@ -72,7 +72,7 @@
           {{ macros.m_hr() }}
           {{ macros.setting_input_int('uncensored_option_min_size', '최소 크기', value=arg['uncensored_option_min_size'], desc=['이 값 보다 작으면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
           {{ macros.setting_input_int('uncensored_option_max_size', '최대 크기', value=arg['uncensored_option_max_size'], desc=['이 값 보다 크면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
-          {{ macros.setting_input_text('uncensored_option_server_id_mod', 'server_id_mod', col=3, value=arg['option_server_id_mod'], desc=['형식: 나눌 숫자_몫. 예) 3_1 : 3으로 나누어서 몫이 1인 것만 받을 경우', '여러 기기에서 분할하여 받을 경우 사용하며 값이 비어있으면 검사하지 않습니다.', '중복 조건시 구분시 |']) }}
+          {{ macros.setting_input_text('uncensored_option_server_id_mod', 'server_id_mod', col=3, value=arg['uncensored_option_server_id_mod'], desc=['형식: 나눌 숫자_몫. 예) 3_1 : 3으로 나누어서 몫이 1인 것만 받을 경우', '여러 기기에서 분할하여 받을 경우 사용하며 값이 비어있으면 검사하지 않습니다.', '중복 조건시 구분시 |']) }}
         </div>
       {{ macros.m_tab_content_end() }}
 
@@ -92,7 +92,7 @@
           {{ macros.m_hr() }}
           {{ macros.setting_input_int('western_option_min_size', '최소 크기', value=arg['western_option_min_size'], desc=['이 값 보다 작으면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
           {{ macros.setting_input_int('western_option_max_size', '최대 크기', value=arg['western_option_max_size'], desc=['이 값 보다 크면 받지 않습니다.', '0이면 조건을 검사하지 않습니다.', 'GB 단위. 소숫점 지원']) }}
-          {{ macros.setting_input_text('western_option_server_id_mod', 'server_id_mod', col=3, value=arg['option_server_id_mod'], desc=['형식: 나눌 숫자_몫. 예) 3_1 : 3으로 나누어서 몫이 1인 것만 받을 경우', '여러 기기에서 분할하여 받을 경우 사용하며 값이 비어있으면 검사하지 않습니다.', '중복 조건시 구분시 |']) }}
+          {{ macros.setting_input_text('western_option_server_id_mod', 'server_id_mod', col=3, value=arg['western_option_server_id_mod'], desc=['형식: 나눌 숫자_몫. 예) 3_1 : 3으로 나누어서 몫이 1인 것만 받을 경우', '여러 기기에서 분할하여 받을 경우 사용하며 값이 비어있으면 검사하지 않습니다.', '중복 조건시 구분시 |']) }}
         </div>
       {{ macros.m_tab_content_end() }}
       
