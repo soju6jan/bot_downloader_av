@@ -188,7 +188,7 @@ class LogicReceiveAV(LogicModuleBase):
                     msg += '폴더 : %s\n' % ret.dirname
                     msg += '크기 : %s\n' % Util.sizeof_fmt(ret.total_size)
                     
-                    url = '%s/%s/api/add_download?id=%s' % (SystemModelSetting.get('ddns'), package_name, ret.id)
+                    url = '%s/%s/api/%s/add_download?id=%s' % (SystemModelSetting.get('ddns'), package_name, self.name, ret.id)
                     if SystemModelSetting.get_bool('auth_use_apikey'):
                         url += '&apikey=%s' % SystemModelSetting.get('auth_apikey')
                     if app.config['config']['is_server']:
