@@ -627,33 +627,4 @@ class LogicReceiveAV(LogicModuleBase):
             logger.error('Exception:%s', e)
             logger.error(traceback.format_exc())
 
-    """
-    def get_extra_content_url(self, ctype, code):
-        try:
-            from metadata import Logic as MetadataLogic
-            data = MetadataLogic.get_module('jav_censored').search(code, all_find=True, do_trans=False)
-            #logger.debug(data)
-            meta_info = None
-
-            if len(data) > 0 and data[0]['score'] > 95:
-                meta_info = MetadataLogic.get_module('jav_censored').info(data[0]['code'])
-            else:
-                data = MetadataLogic.get_module('jav_censored_ama').search(search_name, all_find=True, do_trans=False)
-                if len(data) > 0 and data[0]['score'] > 95:
-                    meta_info = MetadataLogic.get_module('jav_censored_ama').info(data[0]['code'])
-
-            if meta_info is not None:
-                for extra in meta_info['extras']:
-                    if extra['content_type'] == ctype:
-                        content_url = extra['content_url']
-                        logger.debug('content_url: %s', content_url)
-                        return {'ret': 'success', 'data':content_url}
-
-            return {'ret': 'error','data':'failed to find extra content url(%s)' % code}
-
-        except Exception as e:
-            logger.debug('Exception:%s', e)
-            logger.debug(traceback.format_exc())
-            return {'ret': 'error', 'data':'Exception! failed to find extra content url(%s)' % code}
-    """
     
