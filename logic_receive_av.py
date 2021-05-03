@@ -131,6 +131,7 @@ class LogicReceiveAV(LogicModuleBase):
             return jsonify(True)
         elif sub == 'web_list':
             ret = ModelItem.web_list(request)
+            logger.debug(json.dump(ret, indent=4))
             return jsonify(ret)
         elif sub == 'add_download':
             db_id = request.form['id']
