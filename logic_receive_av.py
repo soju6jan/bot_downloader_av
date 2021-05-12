@@ -93,7 +93,7 @@ class LogicReceiveAV(LogicModuleBase):
         'share_receive_option' : '0',
 
         # db_version 4체크에서 초기값 
-        'receive_db_version' : '4',
+        'receive_db_version' : '5',
         'receive_auto_start' : 'False',
         'receive_interval': '30',
     }
@@ -251,6 +251,11 @@ class LogicReceiveAV(LogicModuleBase):
                 ModelSetting.set('receive_auto_start', ModelSetting.get('auto_start'))
                 ModelSetting.set('receive_interval', ModelSetting.get('interval'))
                 ModelSetting.set('db_version', '4')
+                db.session.flush()
+            if ModelSetting.get('receive_db_version') == '4':
+                ModelSetting.set('receive_auto_start', ModelSetting.get('auto_start'))
+                ModelSetting.set('receive_interval', ModelSetting.get('interval'))
+                ModelSetting.set('receive_db_version', '5')
                 db.session.flush()
                
         except Exception as e:
