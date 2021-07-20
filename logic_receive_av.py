@@ -9,7 +9,7 @@ from flask import request, render_template, jsonify, Response
 from sqlalchemy import or_, and_, func, not_, desc
 # sjva 공용
 from framework import app, db, scheduler, path_data, socketio, SystemModelSetting, py_urllib, Util
-from framework.common.util import headers, get_json_with_auth_session
+from framework.common.util import headers
 from framework.common.plugin import LogicModuleBase, default_route_socketio
 from tool_base import ToolBaseNotify
 
