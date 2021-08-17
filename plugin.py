@@ -13,7 +13,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from framework.logger import get_logger
 from framework import app, db, scheduler, path_data, socketio, check_api, SystemModelSetting
 from framework.util import Util
-from framework.common.plugin import get_model_setting, Logic, default_route
+from plugin import get_model_setting, Logic, default_route, PluginUtil
 
 # 패키지
 # 로그
@@ -56,8 +56,7 @@ class P(object):
 def initialize():
     try:
         app.config['SQLALCHEMY_BINDS'][P.package_name] = 'sqlite:///%s' % (os.path.join(path_data, 'db', '{package_name}.db'.format(package_name=P.package_name)))
-        from framework.util import Util
-        Util.save_from_dict_to_json(P.plugin_info, os.path.join(os.path.dirname(__file__), 'info.json'))
+        PluginUtil.make_info_json(P.plugin_info, __file__)
         ###############################################
         from .logic_receive_av import LogicReceiveAV
         P.module_list = [LogicReceiveAV(P)]
