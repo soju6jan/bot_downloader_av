@@ -45,6 +45,7 @@ class P(object):
         'description' : u'AV 토렌트 수신 & 방송 처리',
         'home' : 'https://github.com/soju6jan/bot_downloader_av',
         'more' : '',
+        'policy_level' : 5,
     }
     ModelSetting = get_model_setting(package_name, logger)
     logic = None
